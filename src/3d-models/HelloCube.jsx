@@ -11,14 +11,28 @@ import { suspend } from "suspend-react";
 
 // const inter = import("@pmndrs/assets/fonts/inter_regular.woff");
 
-const HelloCube = () => {
+const HelloCube = (props) => {
+  const groupRef = useRef();
+
+  useFrame(() => {
+    if (groupRef.current) {
+      groupRef.current.rotation.x += 0.01;
+      groupRef.current.rotation.y += 0.01;
+    }
+  });
+
   return (
-    <group scale={1.5}>
+    <group
+      ref={groupRef}
+      scale={1.5}
+      rotation={[0, 10, 2]}
+      position={props.position}
+    >
       <ambientLight intensity={0.5} />
       <directionalLight position={[10, 10, 5]} />
       <Cube />
       <Dodecahedron position={[0, 1, 0]} scale={0.2} />
-      <ContactShadows
+      {/* <ContactShadows
         frames={1}
         position={[0, -0.5, 0]}
         blur={1}
@@ -29,7 +43,7 @@ const HelloCube = () => {
         position={[0, -0.5, 0]}
         blur={3}
         color="orange"
-      />
+      /> */}
       {/* <OrbitControls minPolarAngle={0} maxPolarAngle={Math.PI / 2.1} /> */}
     </group>
   );

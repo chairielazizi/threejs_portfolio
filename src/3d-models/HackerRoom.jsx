@@ -6,6 +6,11 @@ const HackerRoom = (props) => {
   const monitortxt = useTexture("textures/desk/monitor.png");
   const screenTxt = useTexture("textures/desk/screen.png");
 
+  // Try mirroring the texture
+  // const mirroredMonitortxt = useTexture("textures/desk/monitor.png", {
+  //   flipY: true,
+  // });
+
   return (
     <group {...props} dispose={null}>
       <mesh
@@ -27,6 +32,7 @@ const HackerRoom = (props) => {
         material={materials.computer_mat}
       >
         <meshMatcapMaterial map={monitortxt} />
+        {/* <meshMatcapMaterial map={mirroredMonitortxt} /> */}
       </mesh>
       <mesh
         geometry={nodes.table_table_mat_0_3.geometry}
@@ -53,6 +59,7 @@ const HackerRoom = (props) => {
         material={materials.tv_mat}
       >
         <meshMatcapMaterial map={monitortxt} />
+        {/* <meshMatcapMaterial map={mirroredMonitortxt} /> */}
       </mesh>
       <mesh
         geometry={nodes.table_table_mat_0_9.geometry}

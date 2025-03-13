@@ -1,3 +1,4 @@
+import About from "@/components/About";
 import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
 import React from "react";
@@ -7,6 +8,7 @@ const Home = () => {
     <main className="max-w-7xl mx-auto">
       <Navbar />
       <Main />
+      <About />
     </main>
   );
 };

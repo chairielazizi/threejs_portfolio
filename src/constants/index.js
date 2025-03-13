@@ -27,12 +27,12 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
     deskScale: isSmall ? -0.08 : isMobile ? -0.08 : -0.12,
     deskPosition: isMobile ? [0.5, -4.5, 0] : [0.25, -5.5, 0],
     cubePosition: isSmall
-      ? [4, -5, 0]
+      ? [-0.3, -2, 0]
       : isMobile
-      ? [5, -5, 0]
+      ? [-0.3, -2, 0]
       : isTablet
-      ? [5, -5, 0]
-      : [9, -5.5, 0],
+      ? [-0.3, -2, 0]
+      : [-0.3, -2.5, 0],
     pinkCubePosition: isSmall
       ? [-4, -5, 0]
       : isMobile
@@ -55,26 +55,26 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
       ? [-12, 10, 0]
       : [-24, 10, 0],
     greenRingPosition: isSmall
-      ? [-5, 7, 0]
+      ? [-11, 1.7, 0]
       : isMobile
       ? [-10, -1.1, 0]
       : isTablet
       ? [-16, -1.1, 0]
       : [-24, -1.1, 0],
     targetPosition: isSmall
-      ? [5, -10, -10]
+      ? [5, -12, -10]
       : isMobile
-      ? [9, -10, -10]
+      ? [9, -12, -10]
       : isTablet
       ? [11, -7, -10]
       : [13, -13, -10],
     dronePosition: isSmall
-      ? [-5, -10, -10]
+      ? [-5, 2, -10]
       : isMobile
-      ? [-9, -10, -10]
+      ? [-9, 5, -10]
       : isTablet
       ? [-12, 5, -10]
-      : [-13, -13, -10],
+      : [-13, 7, -10],
   };
 };
 

@@ -17,6 +17,8 @@ import HelloCube from "@/3d-models/HelloCube";
 import PinkCube from "@/3d-models/PinkCube";
 import GreenRing from "@/3d-models/GreenRing";
 import MainCamera from "@/3d-models/MainCamera";
+import Link from "next/link";
+import Button from "./Button";
 
 const Main = () => {
   // const controls = useControls("HackerRoom", {
@@ -105,42 +107,56 @@ const Main = () => {
       <div className="h-full w-full absolute inset-0">
         <Leva />
         <Canvas className="w-full h-full">
-          <Suspense fallback={<CanvasLoader />}></Suspense>
-          <PerspectiveCamera makeDefault position={[0, 0, 30]} />
+          <Suspense fallback={<CanvasLoader />}>
+            <PerspectiveCamera makeDefault position={[0, 0, 30]} />
 
-          <MainCamera>
-            <HackerRoom
-              // scale={isMobile ? -0.08 : -0.1}
-              position={[-1.3, -5.7, -10]}
-              // rotation={[-2.7, 2.7, 0.0]}
-              rotation={[-3.0, 3.2, 6.3]}
-              scale={sizes.deskScale}
-              // scale={[controls.scale, controls.scale, controls.scale]}
-              // position={[
-              //   controls.positionX,
-              //   controls.positionY,
-              //   controls.positionZ,
-              // ]}
-              // rotation={[
-              //   controls.rotationX,
-              //   controls.rotationY,
-              //   controls.rotationZ,
-              // ]}
-            />
-          </MainCamera>
+            <MainCamera>
+              <HackerRoom
+                // scale={isMobile ? -0.08 : -0.1}
+                position={[-1.3, -5.7, -10]}
+                // rotation={[-2.7, 2.7, 0.0]}
+                rotation={[-3.0, 3.2, 6.3]}
+                scale={sizes.deskScale}
+                // scale={[controls.scale, controls.scale, controls.scale]}
+                // position={[
+                //   controls.positionX,
+                //   controls.positionY,
+                //   controls.positionZ,
+                // ]}
+                // rotation={[
+                //   controls.rotationX,
+                //   controls.rotationY,
+                //   controls.rotationZ,
+                // ]}
+              />
+            </MainCamera>
 
-          <group>
-            <Drone position={sizes.dronePosition} rotation={[0, Math.PI, 0]} />
-            <Target position={sizes.targetPosition} />
-            <ReactLogo position={sizes.reactLogoPosition} />
-            <HelloCube position={sizes.cubePosition} />
-            <PinkCube position={sizes.pinkCubePosition} />
-            <GreenRing position={sizes.greenRingPosition} />
-          </group>
+            <group>
+              <Drone
+                position={sizes.dronePosition}
+                rotation={[0, Math.PI, 0]}
+              />
+              <Target position={sizes.targetPosition} />
+              <ReactLogo position={sizes.reactLogoPosition} />
+              <HelloCube position={sizes.cubePosition} />
+              <PinkCube position={sizes.pinkCubePosition} />
+              <GreenRing position={sizes.greenRingPosition} />
+            </group>
 
-          <ambientLight intensity={1} />
-          <directionalLight position={[10, 10, 10]} intensity={0.5} />
+            <ambientLight intensity={1} />
+            <directionalLight position={[10, 10, 10]} intensity={0.5} />
+          </Suspense>
         </Canvas>
+      </div>
+
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-full z-10 c-space">
+        <Link href="#contact" className="w-fit">
+          <Button
+            name="Get in touch"
+            isBeam
+            containerClass="w-full sm:w-fit sm:min-w-96"
+          />
+        </Link>
       </div>
     </section>
   );
