@@ -7,9 +7,14 @@ const About = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [places, setPlaces] = useState([]);
   const [hasCopied, setHasCopied] = useState(false);
+  const [Globe, setGlobe] = useState(null);
 
   useEffect(() => {
     setIsMounted(true);
+    import("react-globe.gl").then((module) => {
+      setGlobe(module.Globe);
+    });
+    console.log("Globe check: " + Globe);
     // load data
     fetch("/datasets/ne_110m_populated_places_simple.geojson")
       .then((res) => res.json())
@@ -77,7 +82,7 @@ const About = () => {
         <div className="col-span-1 xl:col-span-1 xl:row-span-4">
           <div className="grid-container items-center">
             <div className="w-full h-fit flex justify-center items-center sm:h-[326px]">
-              {isMounted && (
+              {isMounted && Globe && places.length > 0 && (
                 <Globe
                   height={326}
                   width={326}

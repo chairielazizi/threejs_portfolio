@@ -67,11 +67,12 @@ const Main = () => {
   return (
     <section className="w-full min-h-screen flex flex-col relative">
       <div className="mx-auto flex flex-col relative w-full sm:mt-36 mt-20 c-space gap-3">
-        <p className="sm:text-5xl text-5xl font-semibold text-white text-center ">
+        <p className="md:text-5xl xl:text-5xl text-3xl font-semibold text-white text-center ">
           <span className="waving-hand">🤙</span>
-          Ahoy there! I&apos;m{" "}
-          <span className="text-accent1">Chairiel Azizi</span>
+          Ahoy there!
           <span className="waving-hand">🤘</span>
+          {(isMobile || isSmall) && <br />}
+          I&apos;m <span className="text-accent1">Chairiel Azizi</span>
         </p>
         {/* <p className="text-gray_gradient hero_tag">
           Building anything that interest me
@@ -81,7 +82,7 @@ const Main = () => {
           initial="hidden"
           whileInView={"show"}
           viewport={{ once: false, amount: 0.7 }}
-          className="mb-3 sm:mb-4 xl:text-4xl md:text-4xl sm:text-4xl text-3xl 
+          className="mb-3 sm:mb-4 xl:text-4xl md:text-4xl sm:text-xl text-xl 
           font-semibold uppercase leading-[1] text-center"
         >
           <span className="text-white mr-4">I am a</span>
