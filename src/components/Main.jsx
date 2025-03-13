@@ -12,6 +12,11 @@ import { TypeAnimation } from "react-type-animation";
 import { calculateSizes } from "@/constants";
 import Target from "../3d-models/Target";
 import Drone from "@/3d-models/Drone";
+import ReactLogo from "@/3d-models/ReactLogo";
+import HelloCube from "@/3d-models/HelloCube";
+import PinkCube from "@/3d-models/PinkCube";
+import GreenRing from "@/3d-models/GreenRing";
+import MainCamera from "@/3d-models/MainCamera";
 
 const Main = () => {
   // const controls = useControls("HackerRoom", {
@@ -102,28 +107,35 @@ const Main = () => {
         <Canvas className="w-full h-full">
           <Suspense fallback={<CanvasLoader />}></Suspense>
           <PerspectiveCamera makeDefault position={[0, 0, 30]} />
-          <HackerRoom
-            // scale={isMobile ? -0.08 : -0.1}
-            position={[-1.3, -5.7, -10]}
-            // rotation={[-2.7, 2.7, 0.0]}
-            rotation={[-3.0, 3.2, 6.3]}
-            scale={sizes.deskScale}
-            // scale={[controls.scale, controls.scale, controls.scale]}
-            // position={[
-            //   controls.positionX,
-            //   controls.positionY,
-            //   controls.positionZ,
-            // ]}
-            // rotation={[
-            //   controls.rotationX,
-            //   controls.rotationY,
-            //   controls.rotationZ,
-            // ]}
-          />
+
+          <MainCamera>
+            <HackerRoom
+              // scale={isMobile ? -0.08 : -0.1}
+              position={[-1.3, -5.7, -10]}
+              // rotation={[-2.7, 2.7, 0.0]}
+              rotation={[-3.0, 3.2, 6.3]}
+              scale={sizes.deskScale}
+              // scale={[controls.scale, controls.scale, controls.scale]}
+              // position={[
+              //   controls.positionX,
+              //   controls.positionY,
+              //   controls.positionZ,
+              // ]}
+              // rotation={[
+              //   controls.rotationX,
+              //   controls.rotationY,
+              //   controls.rotationZ,
+              // ]}
+            />
+          </MainCamera>
 
           <group>
             <Drone position={sizes.dronePosition} rotation={[0, Math.PI, 0]} />
             <Target position={sizes.targetPosition} />
+            <ReactLogo position={sizes.reactLogoPosition} />
+            <HelloCube position={sizes.cubePosition} />
+            <PinkCube position={sizes.pinkCubePosition} />
+            <GreenRing position={sizes.greenRingPosition} />
           </group>
 
           <ambientLight intensity={1} />
