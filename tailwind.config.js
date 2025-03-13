@@ -13,6 +13,9 @@ module.exports = {
       // },
       fontFamily: {
         generalsans: ["General Sans", "sans-serif"],
+        primary: "Orbitron",
+        secondary: "Rajdhani",
+        tertiary: "Aldrich",
       },
       colors: {
         black: {
@@ -30,6 +33,9 @@ module.exports = {
           600: "#AFB0B6",
           500: "#62646C",
         },
+        primary: "#0a0a0a",
+        accent: "#B809C3",
+        accent1: "#38fec3",
       },
       backgroundImage: {
         terminal: "url('/assets/terminal.png')",

@@ -15,7 +15,7 @@ const Navbar = () => {
         <div className="flex justify-between items-center mx-auto py-5 c-space">
           <Link
             href="/"
-            className="text-neutral-400 font-bold text-xl hover:text-white transition-colors"
+            className="text-emerald-500 font-bold text-2xl hover:text-white transition-colors"
           >
             Chairiel
           </Link>
