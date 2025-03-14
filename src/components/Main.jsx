@@ -69,10 +69,11 @@ const Main = () => {
       <div className="mx-auto flex flex-col relative w-full sm:mt-36 mt-20 c-space gap-3">
         <p className="md:text-5xl xl:text-5xl text-3xl font-semibold text-white text-center ">
           <span className="waving-hand">🤙</span>
-          Ahoy there!
-          <span className="waving-hand">🤘</span>
+          Ahoy there!{" "}
+          {(isMobile || isSmall) && <span className="waving-hand">🤘</span>}
           {(isMobile || isSmall) && <br />}
           I&apos;m <span className="text-accent1">Chairiel Azizi</span>
+          {(!isMobile || !isSmall) && <span className="waving-hand">🤘</span>}
         </p>
         {/* <p className="text-gray_gradient hero_tag">
           Building anything that interest me
