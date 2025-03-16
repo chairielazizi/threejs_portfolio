@@ -1,0 +1,98 @@
+"use client";
+import { myProjects } from "@/constants";
+import Link from "next/link";
+import { useState } from "react";
+import { MdArrowOutward } from "react-icons/md";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
+const Projects = () => {
+  const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
+  const currentProject = myProjects[currentProjectIndex];
+
+  const handleNavigation = (direction) => {
+    setCurrentProjectIndex((previousIndex) => {
+      if (direction === "previous") {
+        return previousIndex === 0 ? myProjects.length - 1 : previousIndex - 1;
+      } else {
+        return previousIndex === myProjects.length - 1 ? 0 : previousIndex + 1;
+      }
+    });
+  };
+
+  return (
+    <section className="c-space my-20">
+      <p className="head-text text-3xl font-semibold">My Works</p>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10">
+        <div className="flex flex-col relative gap-5 py-10 px-5 sm:p-10 shadow-2xl shadow-black-200">
+          <div className="absolute top-0 right-0">
+            <img
+              src={currentProject.spotlight}
+              alt="spotlight"
+              className="w-full rounded-xl object-cover h-80"
+            />
+          </div>
+
+          {/* logo */}
+          <div
+            className="p-3 backdrop-filter backdrop-blur-3xl rounded-lg w-fit"
+            style={currentProject.logoStyle}
+          >
+            <img
+              src={currentProject.logo}
+              alt="logo"
+              className="w-10 h-10 shadow-sm"
+            />
+          </div>
+
+          {/* title and description */}
+          <div className="flex flex-col gap-3 text-white-500 my-5">
+            <p className="text-2xl text-white font-semibold animatedText">
+              {currentProject.title}
+            </p>
+            <p className="animatedText">{currentProject.desc}</p>
+            <p className="animatedText">{currentProject.subdesc}</p>
+          </div>
+
+          {/* techs stack */}
+          <div className="flex flex-wrap gap-5 items-center justify-between">
+            <div className="flex items-center gap-3">
+              {currentProject.tags.map((tech, index) => (
+                <div key={index} className="tech-logo">
+                  <img src={tech.path} alt={tech.name} />
+                </div>
+              ))}
+            </div>
+            <Link
+              href={currentProject.href}
+              target="_blank"
+              className="flex items-center gap-2 text-white-600 cursor-pointer"
+            >
+              <p>Check live site</p>
+              {/* <img src="/assets/arrow-up.png" alt="arrow-up" /> */}
+              <MdArrowOutward className="text-3xl text-white cursor-pointer" />
+            </Link>
+          </div>
+
+          {/* next project button */}
+          <div className="flex items-center justify-between mt-7">
+            <button
+              className="arrow-btn"
+              onClick={() => handleNavigation("previous")}
+            >
+              <FaArrowLeft className="text-2xl text-white cursor-pointer" />
+            </button>
+            <button
+              className="arrow-btn"
+              onClick={() => handleNavigation("next")}
+            >
+              <FaArrowRight className="text-2xl text-white cursor-pointer" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;

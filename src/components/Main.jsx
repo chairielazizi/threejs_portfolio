@@ -19,6 +19,7 @@ import GreenRing from "@/3d-models/GreenRing";
 import MainCamera from "@/3d-models/MainCamera";
 import Link from "next/link";
 import Button from "./Button";
+import { rajdhani } from "@/app/fonts";
 
 const Main = () => {
   // const controls = useControls("HackerRoom", {
@@ -72,7 +73,12 @@ const Main = () => {
           Ahoy there!{" "}
           {(isMobile || isSmall) && <span className="waving-hand">🤘</span>}
           {(isMobile || isSmall) && <br />}
-          I&apos;m <span className="text-accent1">Chairiel Azizi</span>
+          I&apos;m{" "}
+          <span
+            className={`text-accent1 ${rajdhani.className} font-semibold uppercase`}
+          >
+            Chairiel Azizi
+          </span>
           {(!isMobile || !isSmall) && <span className="waving-hand">🤘</span>}
         </p>
         {/* <p className="text-gray_gradient hero_tag">

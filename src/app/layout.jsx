@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
-import { Kanit } from "next/font/google";
 import "./globals.css";
+import { kanit } from "./fonts";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -11,12 +11,6 @@ const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
-});
-const kanit = Kanit({
-  subsets: ["latin"],
-  weight: "300",
-  display: "swap",
-  variable: "--font-kanit",
 });
 
 export const metadata = {
