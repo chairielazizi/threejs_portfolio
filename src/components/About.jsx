@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // import Globe from "react-globe.gl";
 import Button from "./Button";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -50,11 +51,12 @@ const About = () => {
             <div>
               <h2 className="grid-headtext">Hey! I&apos;m Chairiel</h2>
               <p className="grid-subtext">
-                A highly motivated Software Developer with hands-on experience
-                in developing web applications, using technologies such as Java,
-                C#, ASP.NET, and PHP Laravel framework with Vue JS. Having a one
-                year plus experience as a software test engineer, and now
-                seeking a role in software development.
+                A fresh graduate and highly motivated Software Developer with
+                hands-on experience in developing web applications, using
+                technologies such as Java, C#, ASP.NET, and PHP Laravel
+                framework with Vue JS. Having a one year plus experience as a
+                software test engineer, and now seeking a role in software
+                development.
               </p>
             </div>
           </div>
@@ -115,11 +117,13 @@ const About = () => {
                 I work remotely across most timezone
               </h2>
               <p className="grid-subtext">Based in Malaysia, Truly Asia</p>
-              <Button
-                name="Contact me"
-                isBeam={true}
-                containerClass={"w-full mt-10"}
-              />
+              <Link href="#contact">
+                <Button
+                  name="Contact me"
+                  isBeam={true}
+                  containerClass={"w-full mt-10"}
+                />
+              </Link>
             </div>
           </div>
         </div>
