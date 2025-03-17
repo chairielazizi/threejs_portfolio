@@ -98,13 +98,13 @@ const Projects = () => {
         {/* threejs computer model */}
         <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full">
           <Canvas>
-            <ambientLight intensity={1} />
+            <ambientLight intensity={Math.PI} />
             <directionalLight position={[10, 10, 5]} />
 
             <Center>
               <Suspense fallback={CanvasLoader}>
                 <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
-                  <Computer />
+                  <Computer texture={currentProject.texture} />
                 </group>
               </Suspense>
             </Center>

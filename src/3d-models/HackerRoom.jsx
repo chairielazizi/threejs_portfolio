@@ -1,4 +1,5 @@
 import { useGLTF, useTexture } from "@react-three/drei";
+import { useEffect } from "react";
 
 const HackerRoom = (props) => {
   const { nodes, materials } = useGLTF("/models/hacker-room.glb");
@@ -6,10 +7,13 @@ const HackerRoom = (props) => {
   const monitortxt = useTexture("textures/desk/monitor.png");
   const screenTxt = useTexture("textures/desk/screen.png");
 
-  // Try mirroring the texture
-  // const mirroredMonitortxt = useTexture("textures/desk/monitor.png", {
-  //   flipY: true,
-  // });
+  //flip the texture
+  useEffect(() => {
+    if (monitortxt || screenTxt) {
+      monitortxt.flipY = false;
+      screenTxt.flipY = false;
+    }
+  }, [monitortxt, screenTxt]);
 
   return (
     <group {...props} dispose={null}>

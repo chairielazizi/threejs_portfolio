@@ -85,7 +85,7 @@ export const myProjects = [
     subdesc:
       "Build using PHP Laravel framework, Tailwind CSS, Vue JS, and MySQL for database. Hosted on Vercel",
     href: "https://legal-ace-sme.vercel.app/",
-    texture: "/textures/project/project1.mp4",
+    texture: "/textures/project/project-accounting.webm",
     logo: "/assets/project-logo4.png",
     logoStyle: {
       // backgroundColor: "#2A1816",
@@ -130,7 +130,7 @@ export const myProjects = [
     subdesc:
       "Built using Next.js(A React framework), Tailwind CSS, MongoDB Atlas for database, and Clerk for authentication and authorization",
     href: "https://nextjs-imdb-rosy.vercel.app/",
-    texture: "/textures/project/project2.mp4",
+    texture: "/textures/project/project-imdb.webm",
     logo: "/assets/project-logo1.png",
     logoStyle: {
       // backgroundColor: "#13202F",
@@ -176,7 +176,7 @@ export const myProjects = [
       "Build using ASP.NET Core MVC stack, Bootstrap 5, Syncfusion component, Microsoft SQL Server for the database and hosted on Microsoft Azure.",
     // href: "https://airielexpensetracker.azurewebsites.net/",
     href: "http://expense-tracker.runasp.net/",
-    texture: "/textures/project/project3.mp4",
+    texture: "/textures/project/project-expense.webm",
     logo: "/assets/project-logo2.png",
     logoStyle: {
       // backgroundColor: "#60f5a1",
