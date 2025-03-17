@@ -33,8 +33,7 @@ const Contact = () => {
           to_email: "chairielazizi@gmail.com",
           message: form.message,
         },
-        // `${process.env.EMAILJS_PUBLICKEY}`
-        "M3JSBl0cInXtXz15X"
+        `${process.env.NEXT_PUBLIC_EMAILJS_PUBLICKEY}`
       );
 
       setLoading(false);
@@ -43,12 +42,13 @@ const Contact = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
+
       alert("Something went wrong.");
     }
   };
 
   return (
-    <section className="c-space my-20">
+    <section id="contact" className="c-space my-20">
       <div className="relative flex flex-col items-center justify-center min-h-screen">
         <img
           src="/assets/terminal.png"
