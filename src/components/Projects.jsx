@@ -1,10 +1,13 @@
 "use client";
 import { myProjects } from "@/constants";
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Canvas } from "@react-three/fiber";
+import { Center, OrbitControls } from "@react-three/drei";
+import CanvasLoader from "@/3d-models/CanvasLoader";
+import Computer from "@/3d-models/Computer";
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -93,12 +96,21 @@ const Projects = () => {
         </div>
 
         {/* threejs computer model */}
-        {/* <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full">
+        <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full">
           <Canvas>
             <ambientLight intensity={1} />
             <directionalLight position={[10, 10, 5]} />
+
+            <Center>
+              <Suspense fallback={CanvasLoader}>
+                <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
+                  <Computer />
+                </group>
+              </Suspense>
+            </Center>
+            <OrbitControls maxPolarAngle={Math.PI / 2} />
           </Canvas>
-        </div> */}
+        </div>
       </div>
     </section>
   );

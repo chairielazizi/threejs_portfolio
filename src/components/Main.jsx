@@ -66,7 +66,7 @@ const Main = () => {
   const sizes = calculateSizes(isSmall, isMobile, isTablet);
 
   return (
-    <section className="w-full min-h-screen flex flex-col relative">
+    <section id="home" className="w-full min-h-screen flex flex-col relative">
       <div className="mx-auto flex flex-col relative w-full sm:mt-36 mt-20 c-space gap-3">
         <p className="md:text-5xl xl:text-5xl text-3xl font-semibold text-white text-center ">
           <span className="waving-hand">🤙</span>

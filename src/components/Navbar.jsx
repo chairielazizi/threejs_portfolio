@@ -50,7 +50,7 @@ const Navbar = () => {
 
 const NavItems = () => {
   return (
-    <ul className="nav-ul">
+    <ul className="nav-ul font-semibold">
       {/* {["Home", "About", "Projects", "Contact"].map((item, index) => (
         <li key={index} className="nav-li">
           <Link href="/" className="nav-li_a">

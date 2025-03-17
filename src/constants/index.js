@@ -81,9 +81,9 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
 export const myProjects = [
   {
     title: "Legal Accounting System for SMEs",
-    desc: "By leveraging modern web development frameworks and methodologies, this project delivers a robust and user-friendly accounting system tailored for small legal firms, enhancing their operational efficiency and allowing them to better manage their finances, cases, and clients.",
+    desc: "This project delivers a robust and user-friendly accounting system tailored for small legal firms, enhancing their operational efficiency and allowing them to better manage their finances, cases, and clients.",
     subdesc:
-      "The primary aim of this project is to create a cost-effective, efficient web application accounting system tailored for small and medium-sized legal firms to streamline their financial documentation and reporting procedures. This system addresses the unique accounting requirements of law firms, which differ from other organizations due to Bar Council regulations and the need for specialized processes.",
+      "Build using PHP Laravel framework, Tailwind CSS, Vue JS, and MySQL for database. Hosted on Vercel",
     href: "https://legal-ace-sme.vercel.app/",
     texture: "/textures/project/project1.mp4",
     logo: "/assets/project-logo4.png",
@@ -171,9 +171,9 @@ export const myProjects = [
   },
   {
     title: "Expense Tracker System",
-    desc: "Expense Tracker using ASP.NET Core MVC stack, hosted on Microsoft Azure.",
+    desc: "A very simple expense tracker system",
     subdesc:
-      "Build using ASP.NET Core MVC stack, Bootstrap 5, Syncfusion component, and hosted on Microsoft Azure.",
+      "Build using ASP.NET Core MVC stack, Bootstrap 5, Syncfusion component, Microsoft SQL Server for the database and hosted on Microsoft Azure.",
     // href: "https://airielexpensetracker.azurewebsites.net/",
     href: "http://expense-tracker.runasp.net/",
     texture: "/textures/project/project3.mp4",
