@@ -18,11 +18,33 @@ const Contact = () => {
   };
 
   //   service_1z3xuxb
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
-    emailjs.send("service_1z3xuxb", "template_tw0r60j");
+    try {
+      await emailjs.send(
+        "service_1z3xuxb",
+        "template_tw0r60j",
+        {
+          from_name: form.name,
+          to_name: "Chairiel Azizi",
+          from_email: form.email,
+          to_email: "chairielazizi@gmail.com",
+          message: form.message,
+        },
+        // `${process.env.EMAILJS_PUBLICKEY}`
+        "M3JSBl0cInXtXz15X"
+      );
+
+      setLoading(false);
+      alert("Thank you. I will get back to you as soon as possible.");
+      setForm({ name: "", email: "", message: "" });
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      alert("Something went wrong.");
+    }
   };
 
   return (
