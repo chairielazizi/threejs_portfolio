@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { Canvas } from "@react-three/fiber";
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -90,6 +91,14 @@ const Projects = () => {
             </button>
           </div>
         </div>
+
+        {/* threejs computer model */}
+        {/* <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full">
+          <Canvas>
+            <ambientLight intensity={1} />
+            <directionalLight position={[10, 10, 5]} />
+          </Canvas>
+        </div> */}
       </div>
     </section>
   );

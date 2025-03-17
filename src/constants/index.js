@@ -156,7 +156,8 @@ export const myProjects = [
     title: "Expense Tracker System",
     desc: "Expense Tracker using ASP.NET Core MVC stack, hosted on Microsoft Azure.",
     subdesc: "",
-    href: "https://airielexpensetracker.azurewebsites.net/",
+    // href: "https://airielexpensetracker.azurewebsites.net/",
+    href: "http://expense-tracker.runasp.net/",
     texture: "/textures/project/project3.mp4",
     logo: "/assets/project-logo3.png",
     logoStyle: {
