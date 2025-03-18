@@ -1,5 +1,6 @@
 import About from "@/components/About";
 import Contact from "@/components/Contact";
+import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 import Main from "@/components/Main";
 import Navbar from "@/components/Navbar";
@@ -13,6 +14,7 @@ const Home = () => {
       <Main />
       <About />
       <Projects />
+      <Experience />
       <Contact />
       <Footer />
     </main>

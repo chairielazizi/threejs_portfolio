@@ -288,6 +288,35 @@ export const myProjects = [
   // },
 ];
 
+export const workExperiences = [
+  {
+    id: 1,
+    name: "SimplifyQA Sdn Bhd",
+    position: "Software Test Engineer (Part time)",
+    duration: "March 2023 - May 2024",
+    title: [
+      "● Execute manual testing and bug tracking with Jira",
+      "● Create test scripts for automation testing with Selenium with Java and TestNG framework",
+      "● Create test cases based on clients’ requirements; Test plan and strategy",
+    ],
+    icon: "/assets/simplifyqa.svg",
+    animation: "victory",
+  },
+  {
+    id: 2,
+    name: "Top Glove Corporation Berhad",
+    position: "Software Developer Intern",
+    duration: "June 2021 - January 2022",
+    title: [
+      "● Develop an application to handle the logistics and inventory system for factories.",
+      "● Develop an Android application using Java as the frontend and C# and ASP.NET as the backend",
+      "● Test new version of Top Glove’s website and perform User Acceptance Testing",
+    ],
+    icon: "/assets/topglove.webp",
+    animation: "clapping",
+  },
+];
+
 // export const clientReviews = [
 //   {
 //     id: 1,
@@ -320,38 +349,5 @@ export const myProjects = [
 //     img: "assets/review4.png",
 //     review:
 //       "Adrian was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend backend dev are top-notch.",
-//   },
-// ];
-
-// export const workExperiences = [
-//   {
-//     id: 1,
-//     name: "Framer",
-//     pos: "Lead Web Developer",
-//     duration: "2022 - Present",
-//     title:
-//       "Framer serves as my go-to tool for creating interactive prototypes. I use it to bring designs to  life, allowing stakeholders to experience the user flow and interactions before development.",
-//     icon: "/assets/framer.svg",
-//     animation: "victory",
-//   },
-//   {
-//     id: 2,
-//     name: "Figma",
-//     pos: "Web Developer",
-//     duration: "2020 - 2022",
-//     title:
-//       "Figma is my collaborative design platform of choice. I utilize it to work seamlessly with team members and clients, facilitating real-time feedback and design iterations. Its cloud-based.",
-//     icon: "/assets/figma.svg",
-//     animation: "clapping",
-//   },
-//   {
-//     id: 3,
-//     name: "Notion",
-//     pos: "Junior Web Developer",
-//     duration: "2019 - 2020",
-//     title:
-//       "Notion helps me keep my projects organized. I use it for project management, task tracking, and as a central hub for documentation, ensuring that everything from design notes to.",
-//     icon: "/assets/notion.svg",
-//     animation: "salute",
 //   },
 // ];
