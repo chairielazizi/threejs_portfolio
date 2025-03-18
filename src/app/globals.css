@@ -32,6 +32,12 @@ body {
 
 body {
   background: #010103;
+  /* background: #161f23; */
+  /* background-image: url("/assets/turqoise2.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; */
+
   /* font-family: "General Sans", sans-serif; */
 }
 
@@ -85,6 +91,7 @@ body {
   /* about section */
   .grid-container {
     @apply w-full h-full border border-black-300 bg-black-200 rounded-lg sm:p-7 p-4 flex flex-col gap-5;
+    /* @apply w-full h-full border border-black-300 bg-gradient-to-tr from-teal-800 to-green-900 rounded-lg sm:p-7 p-4 flex flex-col gap-5; */
   }
 
   .grid-headtext {

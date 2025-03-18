@@ -40,12 +40,13 @@ const About = () => {
     <section id="about" className="my-20 c-space">
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-6 gap-5 h-full">
         {/* about me */}
-        <div className="col-span-1 xl:col-span-1 xl:row-span-3 ">
+        <div className="col-span-1 xl:col-span-1 xl:row-span-3">
           <div className="grid-container justify-center items-center">
             <img
-              src="/assets/grid1.png"
+              // src="/assets/grid1.png"
+              src="/assets/riel1.png"
               alt="about-me"
-              className="w-full h-fit object-contain sm:w-[276px]"
+              className="w-fit h-fit object-contain sm:w-[276px]"
             />
 
             <div>
