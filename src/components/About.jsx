@@ -73,14 +73,21 @@ const About = () => {
             />
             <div>
               <h2 className="grid-headtext">Skills</h2>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent bg-transparent rounded-xl p-2">
                 <p className="grid-subtext">Java</p>
                 <p className="grid-subtext">C#</p>
                 <p className="grid-subtext">ASP.NET</p>
                 <p className="grid-subtext">PHP</p>
                 <p className="grid-subtext">Laravel</p>
                 <p className="grid-subtext">Vue JS</p>
+                <p className="grid-subtext">Javascript</p>
+                <p className="grid-subtext">Typescript</p>
+                <p className="grid-subtext">ReactJS</p>
+                <p className="grid-subtext">Next.js</p>
                 <p className="grid-subtext">SQL</p>
+                <p className="grid-subtext">MySQL</p>
+                <p className="grid-subtext">PostgreSQL</p>
+                <p className="grid-subtext">MongoDB</p>
                 <p className="grid-subtext">Git</p>
                 <p className="grid-subtext">Jira</p>
               </div>
