@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 // import Globe from "react-globe.gl";
 import Button from "./Button";
 import dynamic from "next/dynamic";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "react-scroll";
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -125,7 +126,13 @@ const About = () => {
                 I work remotely across most timezone
               </h2>
               <p className="grid-subtext">Based in Malaysia, Truly Asia</p>
-              <Link href="#contact">
+              <Link
+                href="#contact"
+                activeClass="active"
+                smooth={true}
+                spy={true}
+                to="contact"
+              >
                 <Button
                   name="Contact me"
                   isBeam={true}

@@ -17,7 +17,8 @@ import HelloCube from "@/3d-models/HelloCube";
 import PinkCube from "@/3d-models/PinkCube";
 import GreenRing from "@/3d-models/GreenRing";
 import MainCamera from "@/3d-models/MainCamera";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "react-scroll";
 import Button from "./Button";
 import { rajdhani } from "@/app/fonts";
 
@@ -160,7 +161,14 @@ const Main = () => {
       </div>
 
       <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-full z-10 c-space">
-        <Link href="#contact" className="w-fit">
+        <Link
+          href="#contact"
+          className="w-fit"
+          activeClass="active"
+          smooth={true}
+          spy={true}
+          to="contact"
+        >
           <Button
             name="Get in touch"
             isBeam

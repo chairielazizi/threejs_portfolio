@@ -1,6 +1,7 @@
 "use client";
 import { navLinks } from "@/constants";
-import Link from "next/link";
+// import Link from "next/link";
+import { Link } from "react-scroll";
 import { useState } from "react";
 
 const Navbar = () => {
@@ -58,9 +59,17 @@ const NavItems = () => {
           </Link>
         </li>
       ))} */}
-      {navLinks.map(({ id, href, name }) => (
+      {navLinks.map(({ id, href, name, to }) => (
         <li key={id} className="nav-li">
-          <Link href={href} className="nav-li_a" onClick={() => {}}>
+          <Link
+            href={href}
+            className="nav-li_a"
+            onClick={() => {}}
+            activeClass="active"
+            smooth={true}
+            spy={true}
+            to={to}
+          >
             {name}
           </Link>
         </li>
