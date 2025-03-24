@@ -8,6 +8,7 @@ import { Canvas } from "@react-three/fiber";
 import { Center, OrbitControls } from "@react-three/drei";
 import CanvasLoader from "@/3d-models/CanvasLoader";
 import Computer from "@/3d-models/Computer";
+import { GitHubLight } from "developer-icons";
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -67,14 +68,26 @@ const Projects = () => {
                 </div>
               ))}
             </div>
+            <div className="flex flex-col hover:text-white">
+              <Link
+                href={currentProject.href}
+                target="_blank"
+                className="flex items-center gap-2 text-white-600 cursor-pointer"
+              >
+                <p>Check live site</p>
+                {/* <img src="/assets/arrow-up.png" alt="arrow-up" /> */}
+                <MdArrowOutward className="text-3xl text-white cursor-pointer" />
+              </Link>
+            </div>
+          </div>
+          <div className="flex flex-col hover:text-white">
             <Link
-              href={currentProject.href}
+              href={currentProject.github}
               target="_blank"
-              className="flex items-center gap-2 text-white-600 cursor-pointer"
+              className="flex items-center gap-2"
             >
-              <p>Check live site</p>
-              {/* <img src="/assets/arrow-up.png" alt="arrow-up" /> */}
-              <MdArrowOutward className="text-3xl text-white cursor-pointer" />
+              <p className="text-white-600 cursor-pointer">Github Link</p>
+              <GitHubLight className="w-1/12" />
             </Link>
           </div>
 
