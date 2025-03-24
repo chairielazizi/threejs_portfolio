@@ -33,7 +33,7 @@ const Experience = () => {
           </div>
 
           {/* experience grid */}
-          <div className="work-content">
+          <div className="work-content hover:shadow-2xl hover:shadow-emerald-500">
             <div className="py-5 px-2.5 sm:py-10 sm:px-5">
               {workExperiences.map(
                 ({ id, name, position, duration, title, icon, animation }) => (

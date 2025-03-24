@@ -90,7 +90,7 @@ body {
 
   /* about section */
   .grid-container {
-    @apply w-full h-full border border-black-300 bg-black-200 rounded-lg sm:p-7 p-4 flex flex-col gap-5;
+    @apply w-full h-full border border-black-300 bg-black-200 rounded-lg sm:p-7 p-4 flex flex-col gap-5 hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent;
     /* @apply w-full h-full border border-black-300 bg-gradient-to-tr from-teal-800 to-green-900 rounded-lg sm:p-7 p-4 flex flex-col gap-5; */
   }
 

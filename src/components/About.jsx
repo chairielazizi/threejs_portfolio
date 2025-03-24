@@ -55,12 +55,11 @@ const About = () => {
             <div>
               <h2 className="grid-headtext">Hey! I&apos;m Chairiel</h2>
               <p className="grid-subtext">
-                A fresh graduate and highly motivated Software Developer with
-                hands-on experience in developing web applications, using
-                technologies such as Java, C#, ASP.NET, and PHP Laravel
-                framework with Vue JS. Having a one year plus experience as a
-                software test engineer, and now seeking a role in software
-                development.
+                A highly motivated Software Developer with hands-on experience
+                in developing web applications, using technologies such as Java,
+                C#, ASP.NET, and PHP Laravel framework with Vue JS. Having a one
+                year plus experience as a software test engineer, and now
+                seeking a role in software development.
               </p>
             </div>
           </div>
@@ -70,7 +69,7 @@ const About = () => {
         <div className="col-span-1 xl:col-span-1 xl:row-span-3">
           <div className="grid-container items-center">
             <img
-              src="/assets/grid2.png"
+              src="/assets/grid2-1.png"
               alt="skills"
               className="w-full h-fit object-contain sm:w-[276px]"
             />

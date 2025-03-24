@@ -87,7 +87,7 @@ const Projects = () => {
               className="flex items-center gap-2"
             >
               <p className="text-white-600 cursor-pointer">Github Link</p>
-              <GitHubLight className="w-1/12" />
+              <GitHubLight className="h-6 w-5" />
             </Link>
           </div>
 

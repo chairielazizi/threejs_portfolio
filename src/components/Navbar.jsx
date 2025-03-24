@@ -18,7 +18,8 @@ const Navbar = () => {
             href="/"
             className="text-emerald-500 font-bold text-2xl hover:text-white transition-colors"
           >
-            Chairiel
+            {/* Chairiel */}
+            <img src="assets/logo.png" alt="Logo" className="h-12 w-24" />
           </Link>
 
           <button
