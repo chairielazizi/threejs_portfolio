@@ -219,43 +219,60 @@ export const myProjects = [
       },
     ],
   },
-  // {
-  //   title: "Horizon - Online Banking Platform",
-  //   desc: "Horizon is a comprehensive online banking platform that offers users a centralized finance management dashboard. It allows users to connect multiple bank accounts, monitor real-time transactions, and seamlessly transfer money to other users.",
-  //   subdesc:
-  //     "Built with Next.js 14 Appwrite, Dwolla and Plaid, Horizon ensures a smooth and secure banking experience, tailored to meet the needs of modern consumers.",
-  //   href: "https://www.youtube.com/watch?v=PuOVqP_cjkE",
-  //   texture: "/textures/project/project4.mp4",
-  //   logo: "/assets/project-logo4.png",
-  //   logoStyle: {
-  //     backgroundColor: "#0E1F38",
-  //     border: "0.2px solid #0E2D58",
-  //     boxShadow: "0px 0px 60px 0px #2F67B64D",
-  //   },
-  //   spotlight: "/assets/spotlight4.png",
-  //   tags: [
-  //     {
-  //       id: 1,
-  //       name: "React.js",
-  //       path: "/assets/react.svg",
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "TailwindCSS",
-  //       path: "assets/tailwindcss.png",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "TypeScript",
-  //       path: "/assets/typescript.png",
-  //     },
-  //     {
-  //       id: 4,
-  //       name: "Framer Motion",
-  //       path: "/assets/framer.png",
-  //     },
-  //   ],
-  // },
+  {
+    title: "Product Management System",
+    desc: "A very simple product management system to manage products, to test the framework of Java Spring Boot",
+    subdesc:
+      "Built using Java Spring Boot for the backend, React.js, Typescript and Tailwind for the frontend, PostgreSQL for the database, hosted using Docker and Render.",
+    href: "https://springboot-product-management-system.onrender.com/",
+    github:
+      "https://github.com/chairielazizi/springboot_product_management_system",
+    texture: "/textures/project/project-product_spring.webm",
+    logo: "/assets/project-logo3.png",
+    logoStyle: {
+      // backgroundColor: "#0E1F38",
+      // border: "0.2px solid #0E2D58",
+      // boxShadow: "0px 0px 60px 0px #2F67B64D",
+      backgroundColor: "#60f5a1",
+      background:
+        "linear-gradient(0deg, #60F5A150, #60F5A150), linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(208, 213, 221, 0.8) 100%)",
+      border: "0.2px solid rgba(208, 213, 221, 1)",
+      boxShadow: "0px 0px 60px 0px rgba(35, 131, 96, 0.3)",
+    },
+    spotlight: "/assets/spotlight3.png",
+    tags: [
+      {
+        id: 1,
+        name: "Java",
+        path: "/assets/java.svg",
+      },
+      {
+        id: 2,
+        name: "Spring Boot",
+        path: "/assets/spring.svg",
+      },
+      {
+        id: 3,
+        name: "PostgreSQL",
+        path: "assets/postgresql.svg",
+      },
+      {
+        id: 4,
+        name: "Docker",
+        path: "/assets/docker.svg",
+      },
+      {
+        id: 5,
+        name: "React.js",
+        path: "/assets/react.svg",
+      },
+      {
+        id: 6,
+        name: "TailwindCSS",
+        path: "assets/tailwindcss.png",
+      },
+    ],
+  },
   // {
   //   title: "Imaginify - AI Photo Manipulation App",
   //   desc: "Imaginify is a groundbreaking Software-as-a-Service application that empowers users to create stunning photo manipulations using AI technology. With features like AI-driven image editing, a payments system, and a credits-based model.",

@@ -60,8 +60,8 @@ const Projects = () => {
           </div>
 
           {/* techs stack */}
-          <div className="flex flex-wrap gap-5 items-center justify-between">
-            <div className="flex items-center gap-3">
+          <div className="flex flex-wrap gap-4 items-center justify-between">
+            <div className="flex items-center gap-2">
               {currentProject.tags.map((tech, index) => (
                 <div key={index} className="tech-logo">
                   <img src={tech.path} alt={tech.name} />

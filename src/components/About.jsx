@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import Button from "./Button";
 import dynamic from "next/dynamic";
 // import Link from "next/link";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
+import { GitHubLight, LinkedIn } from "developer-icons";
+import Link from "next/link";
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -126,7 +128,7 @@ const About = () => {
                 I work remotely across most timezone
               </h2>
               <p className="grid-subtext">Based in Malaysia, Truly Asia</p>
-              <Link
+              <ScrollLink
                 href="#contact"
                 activeClass="active"
                 smooth={true}
@@ -138,7 +140,7 @@ const About = () => {
                   isBeam={true}
                   containerClass={"w-full mt-10"}
                 />
-              </Link>
+              </ScrollLink>
             </div>
           </div>
         </div>
@@ -182,6 +184,23 @@ const About = () => {
                   chairielazizi@gmail.com
                 </p>
               </div>
+            </div>
+            {/* social link */}
+            <div className="flex gap-3 justify-center">
+              <Link
+                href="https://github.com/chairielazizi"
+                target="_blank"
+                className="social-icon"
+              >
+                <GitHubLight className="w-3/4 h-3/4" />
+              </Link>
+              <Link
+                href="https://www.linkedin.com/in/chairielazizi/"
+                target="_blank"
+                className="social-icon"
+              >
+                <LinkedIn className="w-3/4 h-3/4" />
+              </Link>
             </div>
           </div>
         </div>
