@@ -315,19 +315,32 @@ export const myProjects = [
 export const workExperiences = [
   {
     id: 1,
+    name: "Accenture Southeast Asia",
+    position: "Packaged App Developer",
+    duration: "April 2025 - Present",
+    title: [
+      "● Focusing on backend development using Java and Spring Boot",
+      "● Front-end development using React.js and TailwindCSS",
+      "● Developing and maintaining web applications for clients",
+    ],
+    icon: "/assets/accenture.png",
+    animation: "victory",
+  },
+  {
+    id: 2,
     name: "SimplifyQA Sdn Bhd",
-    position: "Software Test Engineer (Part time)",
-    duration: "March 2023 - May 2024",
+    position: "Software Test Engineer",
+    duration: "March 2023 - April 2024",
     title: [
       "● Execute manual testing and bug tracking with Jira",
       "● Create test scripts for automation testing with Selenium with Java and TestNG framework",
       "● Create test cases based on clients’ requirements; Test plan and strategy",
     ],
     icon: "/assets/simplifyqa.svg",
-    animation: "victory",
+    animation: "clapping",
   },
   {
-    id: 2,
+    id: 3,
     name: "Top Glove Corporation Berhad",
     position: "Software Developer Intern",
     duration: "June 2021 - January 2022",
@@ -337,7 +350,7 @@ export const workExperiences = [
       "● Test new version of Top Glove’s website and perform User Acceptance Testing",
     ],
     icon: "/assets/topglove.webp",
-    animation: "clapping",
+    animation: "victory",
   },
 ];
 
