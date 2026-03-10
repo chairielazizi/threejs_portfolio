@@ -19,6 +19,12 @@ export const navLinks = [
   },
   {
     id: 4,
+    name: "Work",
+    href: "#work",
+    to: "work",
+  },
+  {
+    id: 5,
     name: "Contact",
     href: "#contact",
     to: "contact",
@@ -319,7 +325,11 @@ export const workExperiences = [
     position: "Packaged App Developer",
     duration: "April 2025 - Present",
     title: [
+      "● Currently working with Roche, a global pharmaceutical company, to develop and maintain their web applications",
       "● Focusing on backend development using Java and Spring Boot",
+      "● Using Angular for front-end development and Oracle SQL for database management",
+      "● Unit testing with JUnit, Mockito and Groovy",
+      "● Handle user issues and provide technical support for clients through ServiceNow",
       "● Front-end development using React.js and TailwindCSS",
       "● Developing and maintaining web applications for clients",
     ],

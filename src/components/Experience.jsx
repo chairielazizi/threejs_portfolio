@@ -10,7 +10,7 @@ const Experience = () => {
   const [animationName, setAnimationName] = useState("salute");
 
   return (
-    <section className="c-space my-20">
+    <section id="work" className="c-space my-20">
       <div className="w-full to-white-600">
         <h3 className="head-text text-3xl font-semibold">My Work Experience</h3>
 

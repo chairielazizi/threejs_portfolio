@@ -6,7 +6,8 @@ import gsap from "gsap";
 const Target = (props) => {
   const targetRef = useRef();
   const { scene } = useGLTF(
-    "https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/target-stand/model.gltf"
+    // "https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/target-stand/model.gltf"
+    "models/target.glb"
   );
 
   useGSAP(() => {
@@ -19,7 +20,7 @@ const Target = (props) => {
   });
 
   return (
-    <mesh {...props} ref={targetRef} rotation={[0, -7, 0]} scale={2.5}>
+    <mesh {...props} ref={targetRef} rotation={[0, -7, 0]} scale={4.5}>
       <primitive object={scene} />
     </mesh>
   );

@@ -75,7 +75,7 @@ const About = () => {
             />
             <div>
               <h2 className="grid-headtext">Skills</h2>
-              <div className="flex flex-wrap gap-3 hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent bg-transparent rounded-xl p-2">
+              <div className="flex flex-wrap gap-3 hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent bg-transparent rounded-xl p-2 transition-all duration-500 ease-in-out">
                 <p className="grid-subtext">Java</p>
                 <p className="grid-subtext">C#</p>
                 <p className="grid-subtext">ASP.NET</p>
