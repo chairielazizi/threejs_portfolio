@@ -5,6 +5,8 @@ import { workExperiences } from "@/constants";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useState } from "react";
+import Image from "next/image";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Experience = () => {
   const [animationName, setAnimationName] = useState("salute");
@@ -17,19 +19,21 @@ const Experience = () => {
         <div className="work-container">
           {/* model grid */}
           <div className="work-canvas">
-            <Canvas>
-              <ambientLight intensity={7} />
-              <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-              <directionalLight position={[10, 10, 10]} intensity={1.5} />
-              <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
-              <Suspense fallback={<CanvasLoader />}>
-                <Avatar
-                  position-y={-3}
-                  scale={3}
-                  animationName={animationName}
-                />
-              </Suspense>
-            </Canvas>
+            <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
+              <Canvas>
+                <ambientLight intensity={7} />
+                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                <directionalLight position={[10, 10, 10]} intensity={1.5} />
+                <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
+                <Suspense fallback={<CanvasLoader />}>
+                  <Avatar
+                    position-y={-3}
+                    scale={3}
+                    animationName={animationName}
+                  />
+                </Suspense>
+              </Canvas>
+            </ErrorBoundary>
           </div>
 
           {/* experience grid */}
@@ -48,7 +52,7 @@ const Experience = () => {
                   >
                     <div className="flex flex-col h-full items-center justify-start py-2">
                       <div className="work-content_logo">
-                        <img src={icon} alt={name} className="w-full h-full" />
+                        <Image src={icon} alt={name} width={64} height={64} className="w-full h-full object-contain" />
                       </div>
                       <div className="work-content_bar"></div>
                     </div>

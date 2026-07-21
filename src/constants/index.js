@@ -121,7 +121,7 @@ export const myProjects = [
       {
         id: 3,
         name: "TailwindCSS",
-        path: "assets/tailwindcss.png",
+        path: "/assets/tailwindcss.png",
       },
       {
         id: 4,
@@ -162,7 +162,7 @@ export const myProjects = [
       {
         id: 2,
         name: "TailwindCSS",
-        path: "assets/tailwindcss.png",
+        path: "/assets/tailwindcss.png",
       },
       {
         id: 3,
@@ -211,7 +211,7 @@ export const myProjects = [
       {
         id: 2,
         name: "Bootstrap",
-        path: "assets/bootstrap5.svg",
+        path: "/assets/bootstrap5.svg",
       },
       {
         id: 3,
@@ -260,7 +260,7 @@ export const myProjects = [
       {
         id: 3,
         name: "PostgreSQL",
-        path: "assets/postgresql.svg",
+        path: "/assets/postgresql.svg",
       },
       {
         id: 4,
@@ -275,7 +275,7 @@ export const myProjects = [
       {
         id: 6,
         name: "TailwindCSS",
-        path: "assets/tailwindcss.png",
+        path: "/assets/tailwindcss.png",
       },
     ],
   },

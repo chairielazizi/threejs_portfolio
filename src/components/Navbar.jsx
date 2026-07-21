@@ -3,6 +3,7 @@ import { navLinks } from "@/constants";
 // import Link from "next/link";
 import { Link } from "react-scroll";
 import { useState } from "react";
+import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ const Navbar = () => {
             className="text-emerald-500 font-bold text-2xl hover:text-white transition-colors"
           >
             {/* Chairiel */}
-            <img src="assets/logo.png" alt="Logo" className="h-12 w-24 drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]" />
+            <Image src="/assets/logo.png" alt="Logo" width={96} height={48} className="drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]" />
           </Link>
 
           <button
@@ -27,10 +28,11 @@ const Navbar = () => {
             className="sm:hidden text-neutral-400 hover:text-white focus:outline-none flex"
             aria-label="Toggle Menu"
           >
-            <img
-              src={isOpen ? "assets/close.svg" : "assets/menu.svg"}
+            <Image
+              src={isOpen ? "/assets/close.svg" : "/assets/menu.svg"}
               alt="toggle"
-              className="h-6 w-6"
+              width={24}
+              height={24}
             />
           </button>
 

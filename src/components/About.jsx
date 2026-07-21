@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { Link as ScrollLink } from "react-scroll";
 import { GitHubLight, LinkedIn } from "developer-icons";
 import Link from "next/link";
+import Image from "next/image";
 
 const About = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -33,10 +34,12 @@ const About = () => {
   }, []);
 
   const handleCopy = () => {
-    navigator.clipboard.writeText("chairielazizi@gmail.com");
-    setHasCopied(true);
-    setTimeout(() => setHasCopied(false), 3000);
-    // alert("Copied to clipboard");
+    if (navigator?.clipboard) {
+      navigator.clipboard.writeText("chairielazizi@gmail.com");
+      setHasCopied(true);
+      setTimeout(() => setHasCopied(false), 3000);
+      // alert("Copied to clipboard");
+    }
   };
 
   return (
@@ -45,10 +48,12 @@ const About = () => {
         {/* about me */}
         <div className="col-span-1 xl:col-span-1 xl:row-span-3">
           <div className="grid-container justify-center items-center">
-            <img
+            <Image
               // src="/assets/grid1.png"
               src="/assets/riel1.png"
               alt="about-me"
+              width={276}
+              height={276}
               className="w-fit h-fit object-contain sm:w-[276px]"
             />
 
@@ -68,9 +73,11 @@ const About = () => {
         {/* skills */}
         <div className="col-span-1 xl:col-span-1 xl:row-span-3">
           <div className="grid-container items-center">
-            <img
+            <Image
               src="/assets/grid2-1.png"
               alt="skills"
+              width={276}
+              height={276}
               className="w-full h-fit object-contain sm:w-[276px]"
             />
             <div>
@@ -147,9 +154,11 @@ const About = () => {
         {/* quote */}
         <div className="col-span-1 xl:col-span-2 xl:row-span-3">
           <div className="grid-container justify-center">
-            <img
+            <Image
               src="/assets/grid3.png"
               alt="quote"
+              width={276}
+              height={276}
               className="w-full h-fit object-contain sm:h-[276px]"
             />
             <div>
@@ -167,17 +176,21 @@ const About = () => {
         {/* contact */}
         <div className="col-span-1 xl:col-span-1 xl:row-span-2">
           <div className="grid-container items-center">
-            <img
+            <Image
               src="/assets/grid4.png"
               alt="contact-me"
+              width={276}
+              height={276}
               className="w-full h-fit object-cover sm:h-[276px] md:h-[127px] sm:object-top"
             />
             <div className="space-y-2">
               <h2 className="grid-headtext">Contact me</h2>
               <div className="copy-container" onClick={handleCopy}>
-                <img
-                  src={hasCopied ? "assets/tick.svg" : "assets/copy.svg"}
+                <Image
+                  src={hasCopied ? "/assets/tick.svg" : "/assets/copy.svg"}
                   alt="copy"
+                  width={24}
+                  height={24}
                 />
                 <p className="lg:text-2xl md:text-xl text-lg text-white">
                   chairielazizi@gmail.com
@@ -189,6 +202,7 @@ const About = () => {
               <Link
                 href="https://github.com/chairielazizi"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="social-icon"
               >
                 <GitHubLight className="w-3/4 h-3/4" />
@@ -196,6 +210,7 @@ const About = () => {
               <Link
                 href="https://www.linkedin.com/in/chairielazizi/"
                 target="_blank"
+                rel="noopener noreferrer"
                 className="social-icon"
               >
                 <LinkedIn className="w-3/4 h-3/4" />

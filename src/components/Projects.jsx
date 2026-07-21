@@ -9,10 +9,14 @@ import { Center, OrbitControls } from "@react-three/drei";
 import CanvasLoader from "@/3d-models/CanvasLoader";
 import Computer from "@/3d-models/Computer";
 import { GitHubLight } from "developer-icons";
+import Image from "next/image";
+import { ErrorBoundary } from "react-error-boundary";
 
 const Projects = () => {
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const currentProject = myProjects[currentProjectIndex];
+
+  if (!myProjects || myProjects.length === 0) return null;
 
   const handleNavigation = (direction) => {
     setCurrentProjectIndex((previousIndex) => {
@@ -30,11 +34,12 @@ const Projects = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10">
         <div className="flex flex-col relative gap-5 py-10 px-5 sm:p-10 shadow-2xl shadow-black-200 bg-black-200 rounded-lg transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
-          <div className="absolute top-0 right-0">
-            <img
+          <div className="absolute top-0 right-0 w-full h-80">
+            <Image
               src={currentProject.spotlight}
               alt="spotlight"
-              className="w-full rounded-xl object-cover h-80"
+              fill
+              className="rounded-xl object-cover"
             />
           </div>
 
@@ -43,10 +48,12 @@ const Projects = () => {
             className="p-3 backdrop-filter backdrop-blur-3xl rounded-lg w-fit"
             style={currentProject.logoStyle}
           >
-            <img
+            <Image
               src={currentProject.logo}
               alt="logo"
-              className="w-10 h-10 shadow-sm"
+              width={40}
+              height={40}
+              className="shadow-sm"
             />
           </div>
 
@@ -64,7 +71,7 @@ const Projects = () => {
             <div className="flex items-center gap-2">
               {currentProject.tags.map((tech, index) => (
                 <div key={index} className="tech-logo">
-                  <img src={tech.path} alt={tech.name} />
+                  <Image src={tech.path} alt={tech.name} width={40} height={40} />
                 </div>
               ))}
             </div>
@@ -72,6 +79,7 @@ const Projects = () => {
               <Link
                 href={currentProject.href}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="flex items-center gap-2 text-white-600 cursor-pointer"
               >
                 <p>Check live site</p>
@@ -84,6 +92,7 @@ const Projects = () => {
             <Link
               href={currentProject.github}
               target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2"
             >
               <p className="text-white-600 cursor-pointer">Github Link</p>
@@ -110,19 +119,21 @@ const Projects = () => {
 
         {/* threejs computer model */}
         <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
-          <Canvas>
-            <ambientLight intensity={Math.PI} />
-            <directionalLight position={[10, 10, 5]} />
+          <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
+            <Canvas>
+              <ambientLight intensity={Math.PI} />
+              <directionalLight position={[10, 10, 5]} />
 
-            <Center>
-              <Suspense fallback={CanvasLoader}>
-                <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
-                  <Computer texture={currentProject.texture} />
-                </group>
-              </Suspense>
-            </Center>
-            <OrbitControls maxPolarAngle={Math.PI / 2} />
-          </Canvas>
+              <Center>
+                <Suspense fallback={CanvasLoader}>
+                  <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
+                    <Computer texture={currentProject.texture} />
+                  </group>
+                </Suspense>
+              </Center>
+              <OrbitControls maxPolarAngle={Math.PI / 2} />
+            </Canvas>
+          </ErrorBoundary>
         </div>
       </div>
     </section>

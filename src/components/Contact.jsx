@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import emailjs from "@emailjs/browser";
+import Image from "next/image";
 
 const Contact = () => {
   const formRef = useRef();
@@ -50,10 +51,11 @@ const Contact = () => {
   return (
     <section id="contact" className="c-space my-20">
       <div className="relative flex flex-col items-center justify-center min-h-screen">
-        <img
+        <Image
           src="/assets/terminal.png"
           alt="terminal background"
-          className="absolute min-h-screen inset-0"
+          fill
+          className="-z-10 sm:min-h-screen"
         />
         <div className="contact-container bg-black-200 p-8 rounded-lg border border-black-300 transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
           <h3 className="head-text text-3xl font-semibold">Hit Me Up</h3>

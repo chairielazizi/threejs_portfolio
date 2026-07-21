@@ -14,6 +14,7 @@ const Footer = () => {
         <Link
           href="https://github.com/chairielazizi"
           target="_blank"
+          rel="noopener noreferrer"
           className="social-icon"
         >
           <GitHubLight className="w-3/4 h-3/4" />
@@ -21,6 +22,7 @@ const Footer = () => {
         <Link
           href="https://www.linkedin.com/in/chairielazizi/"
           target="_blank"
+          rel="noopener noreferrer"
           className="social-icon"
         >
           <LinkedIn className="w-3/4 h-3/4" />
