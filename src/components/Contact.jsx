@@ -55,7 +55,7 @@ const Contact = () => {
           alt="terminal background"
           className="absolute min-h-screen inset-0"
         />
-        <div className="contact-container">
+        <div className="contact-container bg-black-200 p-8 rounded-lg border border-black-300 transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
           <h3 className="head-text text-3xl font-semibold">Hit Me Up</h3>
           <p className="text-lg text-white-600 mt-3">
             Do you have a project or any enquiry in mind?

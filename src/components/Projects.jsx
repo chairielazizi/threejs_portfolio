@@ -29,7 +29,7 @@ const Projects = () => {
       <p className="head-text text-3xl font-semibold">My Works</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10">
-        <div className="flex flex-col relative gap-5 py-10 px-5 sm:p-10 shadow-2xl shadow-black-200">
+        <div className="flex flex-col relative gap-5 py-10 px-5 sm:p-10 shadow-2xl shadow-black-200 bg-black-200 rounded-lg transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
           <div className="absolute top-0 right-0">
             <img
               src={currentProject.spotlight}
@@ -109,7 +109,7 @@ const Projects = () => {
         </div>
 
         {/* threejs computer model */}
-        <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full">
+        <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
           <Canvas>
             <ambientLight intensity={Math.PI} />
             <directionalLight position={[10, 10, 5]} />

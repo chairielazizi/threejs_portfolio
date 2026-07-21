@@ -11,7 +11,7 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen((prevIsOpen) => !prevIsOpen);
 
   return (
-    <header className="text-white fixed top-0 left-0 right-0 bg-black/90 z-50">
+    <header className="text-white fixed top-0 left-0 right-0 bg-black/90 z-50 font-primary">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mx-auto py-5 c-space">
           <Link
@@ -19,7 +19,7 @@ const Navbar = () => {
             className="text-emerald-500 font-bold text-2xl hover:text-white transition-colors"
           >
             {/* Chairiel */}
-            <img src="assets/logo.png" alt="Logo" className="h-12 w-24" />
+            <img src="assets/logo.png" alt="Logo" className="h-12 w-24 drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]" />
           </Link>
 
           <button

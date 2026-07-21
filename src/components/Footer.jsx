@@ -28,7 +28,7 @@ const Footer = () => {
       </div>
 
       <p className="text-white-500 ">
-        &copy; Chairiel, 2025. All rights reserved
+        &copy; Chairiel, {new Date().getFullYear()}. All rights reserved
       </p>
     </section>
   );

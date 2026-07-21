@@ -13,7 +13,7 @@ module.exports = {
       // },
       fontFamily: {
         generalsans: ["General Sans", "sans-serif"],
-        primary: "Orbitron",
+        primary: ["var(--font-orbitron)", "sans-serif"],
         secondary: "Rajdhani",
         tertiary: "Aldrich",
       },
@@ -39,6 +39,28 @@ module.exports = {
       },
       backgroundImage: {
         terminal: "url('/assets/terminal.png')",
+      },
+      keyframes: {
+        'float-1': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+        },
+        'float-2': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(-50px, 30px) scale(0.9)' },
+          '66%': { transform: 'translate(40px, -20px) scale(1.1)' },
+        },
+        'float-3': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(40px, 40px) scale(1.2)' },
+          '66%': { transform: 'translate(-30px, -30px) scale(0.8)' },
+        }
+      },
+      animation: {
+        'float-1': 'float-1 10s ease-in-out infinite',
+        'float-2': 'float-2 12s ease-in-out infinite',
+        'float-3': 'float-3 11s ease-in-out infinite',
       },
     },
   },
