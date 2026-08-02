@@ -208,11 +208,11 @@ body {
   }
 
   .grid-headtext {
-    @apply text-xl font-semibold mb-2 text-white font-generalsans;
+    @apply text-xl font-semibold mb-2 text-[var(--tx-primary)];
   }
 
   .grid-subtext {
-    @apply text-[#afb0b6] text-base font-generalsans transition-colors duration-300 ease-in-out hover:bg-transparent;
+    @apply text-[var(--tx-secondary)] text-base transition-colors duration-300 ease-in-out hover:bg-transparent;
   }
 
   .copy-container {

@@ -96,13 +96,13 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
 
 export const myProjects = [
   {
-    title: "Legal Accounting System for SMEs",
-    desc: "This project delivers a robust and user-friendly accounting system tailored for small legal firms, enhancing their operational efficiency and allowing them to better manage their finances, cases, and clients.",
+    title: "MyZakaTax - Kira Cukai dan Zakat Malaysia",
+    desc: "A smart Malaysian tax and zakat calculator based on Budget 2025, designed to help users accurately calculate income tax, zakat on income, and zakat on savings.",
     subdesc:
-      "Build using PHP Laravel framework, Tailwind CSS, Vue JS, and MySQL for database. Hosted on Vercel",
-    href: "https://legal-ace-sme.vercel.app/",
-    github: "https://github.com/chairielazizi/legal-ace-sme",
-    texture: "/textures/project/project-accounting.webm",
+      "Built using Next.js, React, Tailwind CSS, and TypeScript. Hosted on Vercel.",
+    href: "https://myzakatax.airiel.space/",
+    github: "https://github.com/chairielazizi/quran-hadis-search",
+    texture: "/textures/project/project-myzakatax.webm",
     logo: "/assets/project-logo4.png",
     logoStyle: {
       // backgroundColor: "#2A1816",
@@ -116,36 +116,123 @@ export const myProjects = [
     tags: [
       {
         id: 1,
-        name: "PHP",
-        path: "/assets/php.svg",
+        name: "React.js",
+        path: "/assets/react.svg",
       },
       {
         id: 2,
-        name: "Laravel",
-        path: "/assets/laravel.svg",
-      },
-      {
-        id: 3,
         name: "TailwindCSS",
         path: "/assets/tailwindcss.png",
       },
       {
-        id: 4,
-        name: "Vue JS",
-        path: "/assets/vuejs.svg",
+        id: 3,
+        name: "TypeScript",
+        path: "/assets/typescript.png",
       },
       {
-        id: 5,
-        name: "MySQL",
-        path: "/assets/mysql.svg",
+        id: 4,
+        name: "Next JS",
+        path: "/assets/nextjs.svg",
       },
     ],
   },
   {
-    title: "IMDB Like App",
-    desc: "An simple IMDB like website ",
+    title: "Quran and Hadis AI Semantic Search",
+    desc: "An AI-powered semantic search engine that allows users to ask any question or life situation and find the most relevant Quran verses and Hadith without altering original texts.",
     subdesc:
-      "Built using Next.js(A React framework), Tailwind CSS, MongoDB Atlas for database, and Clerk for authentication and authorization",
+      "Built with Next.js, React, TypeScript, Tailwind CSS, and PostgreSQL. Hosted on Vercel.",
+    href: "https://quranhadis.airiel.space/",
+    github: "https://github.com/chairielazizi/quran-hadis-search",
+    texture: "/textures/project/project-quranhadis.webm",
+    logo: "/assets/project-logo4.png",
+    logoStyle: {
+      // backgroundColor: "#2A1816",
+      // border: "0.2px solid #36201D",
+      // boxShadow: "0px 0px 60px 0px #AA3C304D",
+      backgroundColor: "#0E1F38",
+      border: "0.2px solid #0E2D58",
+      boxShadow: "0px 0px 60px 0px #2F67B64D",
+    },
+    spotlight: "/assets/spotlight4.png",
+    tags: [
+      {
+        id: 1,
+        name: "React.js",
+        path: "/assets/react.svg",
+      },
+      {
+        id: 2,
+        name: "TailwindCSS",
+        path: "/assets/tailwindcss.png",
+      },
+      {
+        id: 3,
+        name: "TypeScript",
+        path: "/assets/typescript.png",
+      },
+      {
+        id: 4,
+        name: "Next JS",
+        path: "/assets/nextjs.svg",
+      },
+      {
+        id: 5,
+        name: "PostgreSQL",
+        path: "/assets/postgresql.svg",
+      },
+    ],
+  },
+  // {
+  //   title: "Legal Accounting System for SMEs",
+  //   desc: "This project delivers a robust and user-friendly accounting system tailored for small legal firms, enhancing their operational efficiency and allowing them to better manage their finances, cases, and clients.",
+  //   subdesc:
+  //     "Build using PHP Laravel framework, Tailwind CSS, Vue JS, and MySQL for database. Hosted on Vercel",
+  //   href: "https://legal-ace-sme.vercel.app/",
+  //   github: "https://github.com/chairielazizi/legal-ace-sme",
+  //   texture: "/textures/project/project-accounting.webm",
+  //   logo: "/assets/project-logo4.png",
+  //   logoStyle: {
+  //     // backgroundColor: "#2A1816",
+  //     // border: "0.2px solid #36201D",
+  //     // boxShadow: "0px 0px 60px 0px #AA3C304D",
+  //     backgroundColor: "#0E1F38",
+  //     border: "0.2px solid #0E2D58",
+  //     boxShadow: "0px 0px 60px 0px #2F67B64D",
+  //   },
+  //   spotlight: "/assets/spotlight4.png",
+  //   tags: [
+  //     {
+  //       id: 1,
+  //       name: "PHP",
+  //       path: "/assets/php.svg",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Laravel",
+  //       path: "/assets/laravel.svg",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "TailwindCSS",
+  //       path: "/assets/tailwindcss.png",
+  //     },
+  //     {
+  //       id: 4,
+  //       name: "Vue JS",
+  //       path: "/assets/vuejs.svg",
+  //     },
+  //     {
+  //       id: 5,
+  //       name: "MySQL",
+  //       path: "/assets/mysql.svg",
+  //     },
+  //   ],
+  // },
+  {
+    title: "IMDB Like App",
+    desc: "A lightweight, IMDB-inspired movie database application featuring trending and top-rated movies, search functionality, and user authentication.",
+    subdesc:
+      "Built using Next.js, Tailwind CSS, MongoDB Atlas for the database, and Clerk for authentication.",
     href: "https://nextjs-imdb-rosy.vercel.app/",
     github: "https://github.com/chairielazizi/nextjs_imdb",
     texture: "/textures/project/project-imdb.webm",
@@ -189,9 +276,9 @@ export const myProjects = [
   },
   {
     title: "Expense Tracker System",
-    desc: "A very simple expense tracker system",
+    desc: "A comprehensive expense tracking dashboard featuring income and expense summaries, categorized donut charts, spline charts for transaction tracking, and recent transactions.",
     subdesc:
-      "Build using ASP.NET Core MVC stack, Bootstrap 5, Syncfusion component, Microsoft SQL Server for the database and hosted on Microsoft Azure.",
+      "Built using ASP.NET Core MVC stack, Bootstrap 5, Syncfusion UI components, and Microsoft SQL Server. Hosted on Microsoft Azure / runasp.net.",
     // href: "https://airielexpensetracker.azurewebsites.net/",
     href: "http://expense-tracker.runasp.net/",
     github: "https://github.com/chairielazizi/ExpenseTracker",
@@ -231,94 +318,57 @@ export const myProjects = [
       },
     ],
   },
-  {
-    title: "Product Management System",
-    desc: "A very simple product management system to manage products, to test the framework of Java Spring Boot",
-    subdesc:
-      "Built using Java Spring Boot for the backend, React.js, Typescript and Tailwind for the frontend, PostgreSQL for the database, hosted using Docker and Render.",
-    href: "https://springboot-product-management-system.onrender.com/",
-    github:
-      "https://github.com/chairielazizi/springboot_product_management_system",
-    texture: "/textures/project/project-product_spring.webm",
-    logo: "/assets/project-logo3.png",
-    logoStyle: {
-      // backgroundColor: "#0E1F38",
-      // border: "0.2px solid #0E2D58",
-      // boxShadow: "0px 0px 60px 0px #2F67B64D",
-      backgroundColor: "#60f5a1",
-      background:
-        "linear-gradient(0deg, #60F5A150, #60F5A150), linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(208, 213, 221, 0.8) 100%)",
-      border: "0.2px solid rgba(208, 213, 221, 1)",
-      boxShadow: "0px 0px 60px 0px rgba(35, 131, 96, 0.3)",
-    },
-    spotlight: "/assets/spotlight3.png",
-    tags: [
-      {
-        id: 1,
-        name: "Java",
-        path: "/assets/java.svg",
-      },
-      {
-        id: 2,
-        name: "Spring Boot",
-        path: "/assets/spring.svg",
-      },
-      {
-        id: 3,
-        name: "PostgreSQL",
-        path: "/assets/postgresql.svg",
-      },
-      {
-        id: 4,
-        name: "Docker",
-        path: "/assets/docker.svg",
-      },
-      {
-        id: 5,
-        name: "React.js",
-        path: "/assets/react.svg",
-      },
-      {
-        id: 6,
-        name: "TailwindCSS",
-        path: "/assets/tailwindcss.png",
-      },
-    ],
-  },
   // {
-  //   title: "Imaginify - AI Photo Manipulation App",
-  //   desc: "Imaginify is a groundbreaking Software-as-a-Service application that empowers users to create stunning photo manipulations using AI technology. With features like AI-driven image editing, a payments system, and a credits-based model.",
+  //   title: "Product Management System",
+  //   desc: "A very simple product management system to manage products, to test the framework of Java Spring Boot",
   //   subdesc:
-  //     "Built with Next.js 14, Cloudinary AI, Clerk, and Stripe, Imaginify combines cutting-edge technology with a user-centric approach. It can be turned into a side income or even a full-fledged business.",
-  //   href: "https://www.youtube.com/watch?v=Ahwoks_dawU",
-  //   texture: "/textures/project/project5.mp4",
-  //   logo: "/assets/project-logo5.png",
+  //     "Built using Java Spring Boot for the backend, React.js, Typescript and Tailwind for the frontend, PostgreSQL for the database, hosted using Docker and Render.",
+  //   href: "https://springboot-product-management-system.onrender.com/",
+  //   github:
+  //     "https://github.com/chairielazizi/springboot_product_management_system",
+  //   texture: "/textures/project/project-product_spring.webm",
+  //   logo: "/assets/project-logo3.png",
   //   logoStyle: {
-  //     backgroundColor: "#1C1A43",
-  //     border: "0.2px solid #252262",
-  //     boxShadow: "0px 0px 60px 0px #635BFF4D",
+  //     // backgroundColor: "#0E1F38",
+  //     // border: "0.2px solid #0E2D58",
+  //     // boxShadow: "0px 0px 60px 0px #2F67B64D",
+  //     backgroundColor: "#60f5a1",
+  //     background:
+  //       "linear-gradient(0deg, #60F5A150, #60F5A150), linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(208, 213, 221, 0.8) 100%)",
+  //     border: "0.2px solid rgba(208, 213, 221, 1)",
+  //     boxShadow: "0px 0px 60px 0px rgba(35, 131, 96, 0.3)",
   //   },
-  //   spotlight: "/assets/spotlight5.png",
+  //   spotlight: "/assets/spotlight3.png",
   //   tags: [
   //     {
   //       id: 1,
+  //       name: "Java",
+  //       path: "/assets/java.svg",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Spring Boot",
+  //       path: "/assets/spring.svg",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "PostgreSQL",
+  //       path: "/assets/postgresql.svg",
+  //     },
+  //     {
+  //       id: 4,
+  //       name: "Docker",
+  //       path: "/assets/docker.svg",
+  //     },
+  //     {
+  //       id: 5,
   //       name: "React.js",
   //       path: "/assets/react.svg",
   //     },
   //     {
-  //       id: 2,
+  //       id: 6,
   //       name: "TailwindCSS",
-  //       path: "assets/tailwindcss.png",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "TypeScript",
-  //       path: "/assets/typescript.png",
-  //     },
-  //     {
-  //       id: 4,
-  //       name: "Framer Motion",
-  //       path: "/assets/framer.png",
+  //       path: "/assets/tailwindcss.png",
   //     },
   //   ],
   // },
@@ -369,38 +419,3 @@ export const workExperiences = [
     animation: "victory",
   },
 ];
-
-// export const clientReviews = [
-//   {
-//     id: 1,
-//     name: "Emily Johnson",
-//     position: "Marketing Director at GreenLeaf",
-//     img: "assets/review1.png",
-//     review:
-//       "Working with Adrian was a fantastic experience. He transformed our outdated website into a modern, user-friendly platform. His attention to detail and commitment to quality are unmatched. Highly recommend him for any web dev projects.",
-//   },
-//   {
-//     id: 2,
-//     name: "Mark Rogers",
-//     position: "Founder of TechGear Shop",
-//     img: "assets/review2.png",
-//     review:
-//       "Adrian’s expertise in web development is truly impressive. He delivered a robust and scalable solution for our e-commerce site, and our online sales have significantly increased since the launch. He’s a true professional! Fantastic work.",
-//   },
-//   {
-//     id: 3,
-//     name: "John Dohsas",
-//     position: "Project Manager at UrbanTech ",
-//     img: "assets/review3.png",
-//     review:
-//       "I can’t say enough good things about Adrian. He was able to take our complex project requirements and turn them into a seamless, functional website. His problem-solving abilities are outstanding.",
-//   },
-//   {
-//     id: 4,
-//     name: "Ether Smith",
-//     position: "CEO of BrightStar Enterprises",
-//     img: "assets/review4.png",
-//     review:
-//       "Adrian was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend backend dev are top-notch.",
-//   },
-// ];
