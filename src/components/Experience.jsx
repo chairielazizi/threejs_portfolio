@@ -14,13 +14,18 @@ const Experience = () => {
   return (
     <section id="work" className="c-space my-20">
       <div className="w-full to-white-600">
+        <div className="sec-divider mb-8" />
+        <p className="sec-tag">/ Experience</p>
         <h3 className="head-text text-3xl font-semibold">My Work Experience</h3>
 
         <div className="work-container">
           {/* model grid */}
           <div className="work-canvas">
             <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
-              <Canvas>
+              <Canvas
+                dpr={[1, 1.5]}
+                gl={{ powerPreference: "high-performance", antialias: false }}
+              >
                 <ambientLight intensity={7} />
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <directionalLight position={[10, 10, 10]} intensity={1.5} />

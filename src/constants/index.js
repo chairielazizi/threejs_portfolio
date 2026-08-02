@@ -13,18 +13,24 @@ export const navLinks = [
   },
   {
     id: 3,
+    name: "Skills",
+    href: "#skills",
+    to: "skills",
+  },
+  {
+    id: 4,
     name: "Projects",
     href: "#projects",
     to: "projects",
   },
   {
-    id: 4,
+    id: 5,
     name: "Work",
     href: "#work",
     to: "work",
   },
   {
-    id: 5,
+    id: 6,
     name: "Contact",
     href: "#contact",
     to: "contact",
@@ -39,52 +45,52 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
     cubePosition: isSmall
       ? [-0.3, -2, 0]
       : isMobile
-      ? [-0.3, -2, 0]
-      : isTablet
-      ? [-0.3, -2, 0]
-      : [-0.3, -2.5, 0],
+        ? [-0.3, -2, 0]
+        : isTablet
+          ? [-0.3, -2, 0]
+          : [-0.3, -2.5, 0],
     pinkCubePosition: isSmall
       ? [-4, -5, 0]
       : isMobile
-      ? [-7, -5, 0]
-      : isTablet
-      ? [-9, -5, 0]
-      : [-9, -5.5, 0],
+        ? [-7, -5, 0]
+        : isTablet
+          ? [-9, -5, 0]
+          : [-9, -5.5, 0],
     reactLogoPosition: isSmall
       ? [3, 4, 0]
       : isMobile
-      ? [5, 4, 0]
-      : isTablet
-      ? [9, 4, 0]
-      : [12, 5, 0],
+        ? [5, 4, 0]
+        : isTablet
+          ? [9, 4, 0]
+          : [12, 5, 0],
     ringPosition: isSmall
       ? [-5, 7, 0]
       : isMobile
-      ? [-10, 10, 0]
-      : isTablet
-      ? [-12, 10, 0]
-      : [-24, 10, 0],
+        ? [-10, 10, 0]
+        : isTablet
+          ? [-12, 10, 0]
+          : [-24, 10, 0],
     greenRingPosition: isSmall
       ? [-11, 1.7, 0]
       : isMobile
-      ? [-10, -1.1, 0]
-      : isTablet
-      ? [-16, -1.1, 0]
-      : [-24, -1.1, 0],
+        ? [-10, -1.1, 0]
+        : isTablet
+          ? [-16, -1.1, 0]
+          : [-24, -1.1, 0],
     targetPosition: isSmall
       ? [5, -12, -10]
       : isMobile
-      ? [9, -12, -10]
-      : isTablet
-      ? [11, -7, -10]
-      : [13, -13, -10],
+        ? [9, -12, -10]
+        : isTablet
+          ? [11, -7, -10]
+          : [13, -13, -10],
     dronePosition: isSmall
-      ? [-5, 2, -10]
+      ? [-5, 0, -10]
       : isMobile
-      ? [-9, 5, -10]
-      : isTablet
-      ? [-12, 5, -10]
-      : [-13, 7, -10],
+        ? [-9, 2, -10]
+        : isTablet
+          ? [-12, 2, -10]
+          : [-13, 3, -10],
   };
 };
 

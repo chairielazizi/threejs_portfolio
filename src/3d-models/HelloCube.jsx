@@ -1,13 +1,6 @@
 import { useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  RenderTexture,
-  OrbitControls,
-  PerspectiveCamera,
-  Text,
-  ContactShadows,
-} from "@react-three/drei";
-import { suspend } from "suspend-react";
+import { RenderTexture, PerspectiveCamera } from "@react-three/drei";
 
 // const inter = import("@pmndrs/assets/fonts/inter_regular.woff");
 
@@ -69,14 +62,10 @@ function Cube() {
           <color attach="background" args={["orange"]} />
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} />
-          <Text
-            // font={suspend(inter).default}
-            ref={textRef}
-            fontSize={4}
-            color="#555"
-          >
-            hello
-          </Text>
+          <mesh ref={textRef}>
+            <planeGeometry args={[3, 1]} />
+            <meshStandardMaterial color="#34d399" />
+          </mesh>
           <Dodecahedron />
         </RenderTexture>
       </meshStandardMaterial>

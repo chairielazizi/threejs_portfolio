@@ -1,4 +1,9 @@
-import { Kanit, Rajdhani, Orbitron } from "next/font/google";
+import { Kanit, Rajdhani, Orbitron, Space_Grotesk } from "next/font/google";
+
+export const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  variable: "--font-space-grotesk",
+});
 
 export const kanit = Kanit({
   subsets: ["latin"],

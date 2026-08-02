@@ -21,46 +21,9 @@ import MainCamera from "@/3d-models/MainCamera";
 // import Link from "next/link";
 import { Link } from "react-scroll";
 import Button from "./Button";
-import { rajdhani } from "@/app/fonts";
+import { rajdhani, spaceGrotesk } from "@/app/fonts";
 
 const Main = () => {
-  // const controls = useControls("HackerRoom", {
-  //   positionX: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  //   positionY: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  //   positionZ: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  //   rotationX: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  //   rotationY: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  //   rotationZ: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  //   scale: {
-  //     value: 2.5,
-  //     min: -10,
-  //     max: 10,
-  //   },
-  // });
   const isSmall = useMediaQuery({ maxWidth: 480 });
   const isMobile = useMediaQuery({ maxWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
@@ -70,46 +33,39 @@ const Main = () => {
   return (
     <section id="home" className="w-full min-h-screen flex flex-col relative">
       <div className="mx-auto flex flex-col relative w-full sm:mt-36 mt-20 c-space gap-3">
-        <p className="md:text-5xl xl:text-5xl text-3xl font-semibold text-white text-center ">
-          <span className="waving-hand">🤙</span>
-          Ahoy there!{" "}
-          {(isMobile || isSmall) && <span className="waving-hand">🤘</span>}
-          {(isMobile || isSmall) && <br />}
-          I&apos;m{" "}
-          <span
-            className={`text-accent1 ${rajdhani.className} font-semibold uppercase`}
-          >
-            Chairiel Azizi
+        {/* Title */}
+        <h1 style={{ lineHeight: 1.1, fontWeight: 700 }} className={`text-center ${spaceGrotesk.className}`}>
+          <span style={{ display: "block", fontSize: "clamp(2.5rem, 6vw, 4.5rem)", color: "var(--tx-primary)", letterSpacing: "-0.01em" }}>
+            Hey There! I&apos;m <span className="gradient-text">Chairiel Azizi</span>
           </span>
-          {(!isMobile || !isSmall) && <span className="waving-hand">🤘</span>}
-        </p>
-        {/* <p className="text-gray_gradient hero_tag">
-          Building anything that interest me
-        </p> */}
+        </h1>
+
+        {/* Subtitle / Role */}
         <motion.div
           variants={fadeIn("up", 0.5)}
           initial="hidden"
           whileInView={"show"}
           viewport={{ once: false, amount: 0.7 }}
-          className="mb-3 sm:mb-4 xl:text-4xl md:text-4xl sm:text-xl text-xl 
-          font-semibold uppercase leading-[1] text-center"
+          className="mb-3 sm:mb-4 font-medium leading-[1.2] text-center"
         >
-          <span className="text-white mr-4">I am a</span>
+          <span style={{ color: "var(--tx-dim)", fontWeight: 500, fontSize: "clamp(1.2rem, 3vw, 2.1rem)", marginRight: "0.5rem" }}>
+            I am a
+          </span>
           <TypeAnimation
             sequence={[
-              "Developer",
+              "Packaged App Developer",
               2000,
-              "Programmer",
+              "Full Stack Developer",
               2000,
-              "Automation Tester",
+              "Java & Spring Boot Dev",
               2000,
-              "Tinkerer",
+              "React & Angular Dev",
               2000,
-              "Software Developer",
+              "Software Test Engineer",
               2000,
             ]}
             speed={150}
-            className="text-accent1 "
+            style={{ color: "var(--teal-bright)", fontWeight: 600, fontSize: "clamp(1.2rem, 3vw, 2.1rem)" }}
             wrapper="span"
             repeat={Infinity}
           />
@@ -119,28 +75,33 @@ const Main = () => {
       <div className="h-full w-full absolute inset-0">
         <Leva />
         <ErrorBoundary fallback={<div className="text-white w-full h-full flex justify-center items-center">Failed to load 3D scene.</div>}>
-          <Canvas className="w-full h-full">
+          <Canvas
+            className="w-full h-full"
+            dpr={[1, 1.5]}
+            performance={{ min: 0.5 }}
+            gl={{ powerPreference: "high-performance", antialias: false }}
+          >
             <Suspense fallback={<CanvasLoader />}>
               <PerspectiveCamera makeDefault position={[0, 0, 30]} />
 
               <MainCamera>
                 <HackerRoom
                   // scale={isMobile ? -0.08 : -0.1}
-                  position={[-1.3, -5.7, -10]}
+                  position={[-1.3, -8.0, -10]}
                   // rotation={[-2.7, 2.7, 0.0]}
                   rotation={[-3.0, 3.2, 6.3]}
                   scale={sizes.deskScale}
-                  // scale={[controls.scale, controls.scale, controls.scale]}
-                  // position={[
-                  //   controls.positionX,
-                  //   controls.positionY,
-                  //   controls.positionZ,
-                  // ]}
-                  // rotation={[
-                  //   controls.rotationX,
-                  //   controls.rotationY,
-                  //   controls.rotationZ,
-                  // ]}
+                // scale={[controls.scale, controls.scale, controls.scale]}
+                // position={[
+                //   controls.positionX,
+                //   controls.positionY,
+                //   controls.positionZ,
+                // ]}
+                // rotation={[
+                //   controls.rotationX,
+                //   controls.rotationY,
+                //   controls.rotationZ,
+                // ]}
                 />
               </MainCamera>
 

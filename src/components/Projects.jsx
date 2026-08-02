@@ -30,10 +30,17 @@ const Projects = () => {
 
   return (
     <section id="projects" className="c-space my-20">
-      <p className="head-text text-3xl font-semibold">My Works</p>
+      <div className="sec-divider mb-8" />
+      <p className="sec-tag">/ Projects</p>
+      <p className="head-text text-3xl font-semibold">My Projects</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10">
-        <div className="flex flex-col relative gap-5 py-10 px-5 sm:p-10 shadow-2xl shadow-black-200 bg-black-200 rounded-lg transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
+        <div
+          className="flex flex-col relative gap-5 py-10 px-5 sm:p-10 rounded-2xl transition-all duration-500 ease-in-out"
+          style={{ background: "var(--bg-card)", border: "1px solid var(--bd-soft)" }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--bd-glow)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(52,211,153,.12)"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--bd-soft)"; e.currentTarget.style.boxShadow = "none"; }}
+        >
           <div className="absolute top-0 right-0 w-full h-80">
             <Image
               src={currentProject.spotlight}
@@ -118,9 +125,17 @@ const Projects = () => {
         </div>
 
         {/* threejs computer model */}
-        <div className="border border-black-200 bg-black-200 rounded-lg h-96 md:h-full transition-all duration-500 ease-in-out hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent">
+        <div
+          className="border rounded-2xl h-96 md:h-full transition-all duration-500 ease-in-out"
+          style={{ background: "var(--bg-card)", border: "1px solid var(--bd-soft)" }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = "var(--bd-glow)"; e.currentTarget.style.boxShadow = "0 0 28px rgba(52,211,153,.12)"; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--bd-soft)"; e.currentTarget.style.boxShadow = "none"; }}
+        >
           <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
-            <Canvas>
+            <Canvas
+              dpr={[1, 1.5]}
+              gl={{ powerPreference: "high-performance", antialias: false }}
+            >
               <ambientLight intensity={Math.PI} />
               <directionalLight position={[10, 10, 5]} />
 

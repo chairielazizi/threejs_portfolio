@@ -1,77 +1,121 @@
 "use client";
 import { navLinks } from "@/constants";
-// import Link from "next/link";
 import { Link } from "react-scroll";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  // const toggleMenu = () => setIsOpen(!isOpen);
-  const toggleMenu = () => setIsOpen((prevIsOpen) => !prevIsOpen);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const toggleMenu = () => setIsOpen((prev) => !prev);
 
   return (
-    <header className="text-white fixed top-0 left-0 right-0 bg-black/90 z-50 font-primary">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mx-auto py-5 c-space">
+    <>
+      <header
+        className="font-primary fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        style={{
+          background: scrolled ? "rgba(5,13,9,0.94)" : "transparent",
+          borderBottom: scrolled ? "1px solid rgba(52,211,153,.1)" : "1px solid transparent",
+          boxShadow: scrolled ? "0 4px 30px rgba(0,0,0,.4)" : "none",
+          backdropFilter: scrolled ? "blur(20px)" : "none",
+        }}
+      >
+        <div className="max-w-7xl mx-auto c-space flex justify-between items-center h-[72px]">
+          {/* Logo */}
           <Link
-            href="/"
-            className="text-emerald-500 font-bold text-2xl hover:text-white transition-colors"
-          >
-            {/* Chairiel */}
-            <Image src="/assets/logo.png" alt="Logo" width={96} height={48} className="drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]" />
-          </Link>
-
-          <button
-            onClick={toggleMenu}
-            className="sm:hidden text-neutral-400 hover:text-white focus:outline-none flex"
-            aria-label="Toggle Menu"
+            to="home"
+            smooth={true}
+            className="cursor-pointer"
           >
             <Image
-              src={isOpen ? "/assets/close.svg" : "/assets/menu.svg"}
-              alt="toggle"
-              width={24}
-              height={24}
+              src="/assets/logo.png"
+              alt="Logo"
+              width={96}
+              height={48}
+              className="drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]"
             />
-          </button>
+          </Link>
 
+          {/* Desktop nav */}
           <nav className="hidden sm:flex">
             <NavItems />
           </nav>
-        </div>
-      </div>
 
-      {/* mobile */}
-      <div className={`nav-sidebar ${isOpen ? "max-h-screen" : "max-h-0"}`}>
-        <nav className="p-5">
-          <NavItems />
-        </nav>
-      </div>
-    </header>
+          {/* Hamburger */}
+          <button
+            onClick={toggleMenu}
+            className="sm:hidden flex flex-col gap-[5px] p-2 border-none bg-transparent cursor-pointer"
+            aria-label="Toggle Menu"
+          >
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className="block w-[22px] h-[2px] rounded-sm transition-all duration-300"
+                style={{
+                  background: "var(--em-bright)",
+                  transform: isOpen
+                    ? i === 0
+                      ? "rotate(45deg) translate(5px,5px)"
+                      : i === 2
+                      ? "rotate(-45deg) translate(5px,-5px)"
+                      : "none"
+                    : "none",
+                  opacity: isOpen && i === 1 ? 0 : 1,
+                }}
+              />
+            ))}
+          </button>
+        </div>
+
+        {/* Mobile drawer */}
+        <div
+          className="overflow-hidden transition-all duration-300 ease-in-out sm:hidden"
+          style={{
+            maxHeight: isOpen ? "400px" : "0",
+            background: "rgba(5,13,9,.97)",
+            borderTop: "1px solid rgba(52,211,153,.08)",
+          }}
+        >
+          <nav className="p-5">
+            <NavItems mobile onClose={() => setIsOpen(false)} />
+          </nav>
+        </div>
+      </header>
+    </>
   );
 };
 
-const NavItems = () => {
+const NavItems = ({ mobile = false, onClose }) => {
   return (
-    <ul className="nav-ul font-semibold">
-      {/* {["Home", "About", "Projects", "Contact"].map((item, index) => (
-        <li key={index} className="nav-li">
-          <Link href="/" className="nav-li_a">
-            {item}
-          </Link>
-        </li>
-      ))} */}
-      {navLinks.map(({ id, href, name, to }) => (
-        <li key={id} className="nav-li">
+    <ul
+      className={
+        mobile
+          ? "flex flex-col gap-2 list-none"
+          : "flex flex-row items-center gap-1 list-none"
+      }
+    >
+      {navLinks.map(({ id, name, to }) => (
+        <li key={id}>
           <Link
-            href={href}
-            className="nav-li_a"
-            onClick={() => {}}
-            activeClass="active"
+            to={to}
             smooth={true}
             spy={true}
-            to={to}
+            offset={-80}
+            activeClass="nav-active"
+            onClick={onClose}
+            className={`nav-li_a relative block cursor-pointer transition-colors duration-200 text-sm font-medium ${
+              mobile
+                ? "py-3 px-4 rounded-xl hover:bg-[rgba(52,211,153,.08)]"
+                : "py-2 px-4 rounded-lg"
+            }`}
+            style={{ color: "var(--tx-secondary)", textDecoration: "none" }}
           >
             {name}
           </Link>

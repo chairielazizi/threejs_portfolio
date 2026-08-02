@@ -44,6 +44,9 @@ const About = () => {
 
   return (
     <section id="about" className="my-20 c-space">
+      <div className="sec-divider mb-8" />
+      <p className="sec-tag">/ About</p>
+      <h2 className="head-text mb-8">About Me</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:grid-rows-6 gap-5 h-full">
         {/* about me */}
         <div className="col-span-1 xl:col-span-1 xl:row-span-3">
