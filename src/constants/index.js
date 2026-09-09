@@ -96,6 +96,39 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
 
 export const myProjects = [
   {
+    title: "Chairiel's Homelab Architecture",
+    desc: "Explore my self-hosted homelab — 40+ Docker Compose services running on EndeavourOS Linux, featuring monitoring, media, security, and cloud storage stacks.",
+    subdesc:
+      "Built with Docker, Docker Compose, Nginx Proxy Manager, Cloudflare Tunnel, and Tailscale VPN.",
+    href: "https://homelab-portfolio.airiel.space/",
+    github: "https://github.com/chairielazizi",
+    texture: "/textures/project/project-homelab.webm",
+    logo: "/assets/project-logo4.png",
+    logoStyle: {
+      backgroundColor: "#13202F",
+      border: "0.2px solid #17293E",
+      boxShadow: "0px 0px 60px 0px #2F6DB54D",
+    },
+    spotlight: "/assets/spotlight4.png",
+    tags: [
+      {
+        id: 1,
+        name: "Docker",
+        path: "/assets/docker.svg",
+      },
+      {
+        id: 2,
+        name: "Next.js",
+        path: "/assets/nextjs.svg",
+      },
+      {
+        id: 3,
+        name: "TailwindCSS",
+        path: "/assets/tailwindcss.png",
+      },
+    ],
+  },
+  {
     title: "MyZakaTax - Kira Cukai dan Zakat Malaysia",
     desc: "A smart Malaysian tax and zakat calculator based on Budget 2025, designed to help users accurately calculate income tax, zakat on income, and zakat on savings.",
     subdesc:
