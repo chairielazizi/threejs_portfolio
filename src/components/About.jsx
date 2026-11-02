@@ -9,7 +9,8 @@ import { GitHubLight, LinkedIn } from "developer-icons";
 import Link from "next/link";
 import Image from "next/image";
 import TechRadar from "./TechRadar";
-import { HiSignal } from "react-icons/hi2";
+import { HiSignal, HiServerStack } from "react-icons/hi2";
+import { IoInfiniteOutline } from "react-icons/io5";
 
 const TERMINAL_LOGS = [
   { type: "cmd", text: "git push origin main" },
@@ -340,23 +341,47 @@ const About = () => {
                 </p>
               </div>
             </div>
-            {/* social link */}
-            <div className="flex gap-3 justify-center w-full">
+            {/* social links */}
+            <div className="flex gap-2.5 sm:gap-3 justify-center w-full flex-wrap">
               <Link
                 href="https://github.com/chairielazizi"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon"
+                title="GitHub Profile"
+                aria-label="GitHub Profile"
               >
-                <GitHubLight className="w-3/4 h-3/4" />
+                <GitHubLight className="w-3/5 h-3/5" />
               </Link>
               <Link
                 href="https://www.linkedin.com/in/chairielazizi/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="social-icon"
+                title="LinkedIn Profile"
+                aria-label="LinkedIn Profile"
               >
-                <LinkedIn className="w-3/4 h-3/4" />
+                <LinkedIn className="w-3/5 h-3/5" />
+              </Link>
+              <Link
+                href="https://homelab-portfolio.airiel.space/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon"
+                title="Homelab Portfolio (homelab-portfolio.airiel.space)"
+                aria-label="Homelab Portfolio"
+              >
+                <HiServerStack className="w-3/5 h-3/5 text-emerald-400" />
+              </Link>
+              <Link
+                href="https://github.com/chairielazizi/DevOps-Project"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-icon"
+                title="DevOps Project Repository"
+                aria-label="DevOps Project Repository"
+              >
+                <IoInfiniteOutline className="w-3/5 h-3/5 text-teal-300 text-lg" />
               </Link>
             </div>
           </div>

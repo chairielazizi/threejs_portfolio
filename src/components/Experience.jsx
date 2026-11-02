@@ -4,12 +4,24 @@ import CanvasLoader from "@/3d-models/CanvasLoader";
 import { workExperiences } from "@/constants";
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
+import { useMediaQuery } from "react-responsive";
 
 const Experience = () => {
   const [animationName, setAnimationName] = useState("salute");
+  const [mounted, setMounted] = useState(false);
+
+  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const avatarScale = !mounted ? 2.85 : isMobile ? 2.65 : isTablet ? 2.7 : 2.85;
+  const avatarPositionY = !mounted ? -2.75 : isMobile ? -2.4 : isTablet ? -2.6 : -2.75;
 
   return (
     <section id="work" className="c-space my-20">
@@ -18,9 +30,9 @@ const Experience = () => {
         <p className="sec-tag">/ Experience</p>
         <h3 className="head-text text-3xl font-semibold">My Work Experience</h3>
 
-        <div className="work-container">
+        <div className="work-container items-start">
           {/* model grid */}
-          <div className="work-canvas">
+          <div className="work-canvas h-[210px] sm:h-[260px] lg:h-[560px] lg:sticky lg:top-24">
             <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
               <Canvas
                 dpr={[1, 1.5]}
@@ -32,8 +44,8 @@ const Experience = () => {
                 <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
                 <Suspense fallback={<CanvasLoader />}>
                   <Avatar
-                    position-y={-3}
-                    scale={3}
+                    position-y={avatarPositionY}
+                    scale={avatarScale}
                     animationName={animationName}
                   />
                 </Suspense>
