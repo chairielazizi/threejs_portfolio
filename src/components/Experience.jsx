@@ -65,17 +65,19 @@ const Experience = () => {
                       <p className="text-lg font-semibold text-white-800">
                         {name}
                       </p>
-                      <p className="text-md text-white-500">
-                        {position} -: {duration}
+                      <p className="text-sm font-medium text-white-500 mb-3">
+                        {position} • {duration}
                       </p>
-                      {title.map((line, index) => (
-                        <p
-                          key={index}
-                          className="group-hover:text-white transition-all ease-in-out duration-500 text-lg font-normal text-white-600"
-                        >
-                          {line}
-                        </p>
-                      ))}
+                      <div className="flex flex-col gap-2">
+                        {title.map((line, index) => (
+                          <p
+                            key={index}
+                            className="group-hover:text-white transition-all ease-in-out duration-500 text-sm sm:text-base font-normal text-white-600 leading-relaxed"
+                          >
+                            {line}
+                          </p>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )

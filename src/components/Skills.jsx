@@ -4,36 +4,61 @@ import { useEffect, useRef } from "react";
 
 const CATS = [
   {
+    id: "devops",
+    title: "DevOps & Cloud",
+    color: "var(--teal-bright)",
+    skills: [
+      "Docker",
+      "Docker Compose",
+      "GitLab CI/CD",
+      "Linux",
+      "Cloudflare Tunnel",
+      "Nginx",
+      "AWS",
+      "Kubernetes",
+      "Terraform",
+    ],
+  },
+  {
     id: "backend",
-    title: "Backend",
+    title: "Backend Development",
     color: "var(--em-main)",
-    skills: ["Java", "Spring Boot", "C#", "ASP.NET", "PHP", "Laravel"],
+    skills: ["Java", "Spring Boot", "RESTful APIs", "Groovy", "C#", "ASP.NET", "PHP / Laravel"],
   },
   {
     id: "frontend",
-    title: "Frontend",
-    color: "var(--teal-bright)",
-    skills: ["JavaScript", "TypeScript", "ReactJS", "Next.js", "Vue JS", "Angular"],
+    title: "Frontend Development",
+    color: "var(--em-bright)",
+    skills: ["TypeScript", "JavaScript", "ReactJS", "Next.js", "Angular", "Vue.js", "Tailwind CSS"],
   },
   {
     id: "database",
-    title: "Database",
-    color: "var(--em-bright)",
+    title: "Database & Storage",
+    color: "var(--teal-main)",
     skills: ["PostgreSQL", "Oracle SQL", "MySQL", "MongoDB"],
   },
   {
+    id: "monitoring",
+    title: "Monitoring & Observability",
+    color: "var(--em-neon)",
+    skills: ["Grafana", "Prometheus", "Uptime Kuma", "Netdata", "Dozzle"],
+  },
+  {
     id: "tools",
-    title: "Tools & Testing",
-    color: "var(--teal-main)",
-    skills: ["Git", "Jira", "Selenium", "JUnit", "Mockito", "ServiceNow"],
+    title: "Networking & QA Tools",
+    color: "var(--teal-bright)",
+    skills: ["Tailscale VPN", "Authentik SSO", "Git", "ServiceNow", "Jira", "Selenium", "JUnit", "Mockito"],
   },
 ];
 
+/*
 const BARS = [
   { name: "Java / Spring Boot", pct: 90, color: "var(--em-main)" },
-  { name: "ReactJS / Next.js", pct: 85, color: "var(--teal-bright)" },
-  { name: "PHP / Laravel", pct: 70, color: "var(--em-bright)" },
-  { name: "Angular", pct: 85, color: "var(--teal-main)" },
+  { name: "Docker & Containerization", pct: 88, color: "var(--teal-bright)" },
+  { name: "Linux & Homelab Infrastructure", pct: 85, color: "var(--em-neon)" },
+  { name: "ReactJS / Next.js", pct: 85, color: "var(--em-bright)" },
+  { name: "CI/CD & Cloud (AWS)", pct: 80, color: "var(--teal-main)" },
+  { name: "Angular", pct: 80, color: "var(--teal-bright)" },
 ];
 
 function Bar({ name, pct, color }) {
@@ -77,6 +102,7 @@ function Bar({ name, pct, color }) {
     </div>
   );
 }
+*/
 
 const Skills = () => {
   const ref = useRef(null);
@@ -109,7 +135,7 @@ const Skills = () => {
         </h2>
       </div>
 
-      {/* 4-col skills grid */}
+      {/* Skills grid */}
       <div
         style={{
           display: "grid",
@@ -174,7 +200,8 @@ const Skills = () => {
         ))}
       </div>
 
-      {/* Proficiency bars */}
+      {/* Proficiency bars - hidden for now */}
+      {/*
       <div className="glass-card reveal" style={{ padding: "2rem 2.5rem" }}>
         <p
           style={{
@@ -200,6 +227,7 @@ const Skills = () => {
           ))}
         </div>
       </div>
+      */}
     </section>
   );
 };

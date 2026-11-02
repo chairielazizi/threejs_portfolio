@@ -403,3 +403,82 @@ body {
     transform: rotate(0deg);
   }
 }
+
+@keyframes terminal-scroll {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-terminal-scroll {
+  animation: terminal-scroll 20s linear infinite;
+}
+
+.animate-terminal-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* =============================================
+   Orbital Tech Radar Animations
+   ============================================= */
+@keyframes orbit-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter-orbit-cw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes orbit-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes counter-orbit-ccw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-orbit-cw {
+  animation: orbit-cw 28s linear infinite;
+}
+
+.animate-counter-orbit-cw {
+  animation: counter-orbit-cw 28s linear infinite;
+}
+
+.animate-orbit-ccw {
+  animation: orbit-ccw 36s linear infinite;
+}
+
+.animate-counter-orbit-ccw {
+  animation: counter-orbit-ccw 36s linear infinite;
+}
+
+.tech-radar:hover .animate-orbit-cw,
+.tech-radar:hover .animate-counter-orbit-cw,
+.tech-radar:hover .animate-orbit-ccw,
+.tech-radar:hover .animate-counter-orbit-ccw {
+  animation-play-state: paused;
+}

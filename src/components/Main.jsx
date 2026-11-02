@@ -53,15 +53,15 @@ const Main = () => {
           </span>
           <TypeAnimation
             sequence={[
-              "Packaged App Developer",
+              "Aspiring DevOps Engineer",
+              2000,
+              "Software Engineer",
+              2000,
+              "Aspiring Cloud Engineer",
               2000,
               "Full Stack Developer",
               2000,
               "Java & Spring Boot Dev",
-              2000,
-              "React & Angular Dev",
-              2000,
-              "Software Test Engineer",
               2000,
             ]}
             speed={150}
