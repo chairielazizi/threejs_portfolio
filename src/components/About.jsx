@@ -335,6 +335,7 @@ const About = () => {
                   alt="copy"
                   width={22}
                   height={22}
+                  className="w-auto h-auto"
                 />
                 <p className="text-base sm:text-lg text-white font-medium">
                   chairielazizi@gmail.com

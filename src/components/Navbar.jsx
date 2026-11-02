@@ -39,7 +39,8 @@ const Navbar = () => {
               alt="Logo"
               width={96}
               height={48}
-              className="drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]"
+              priority
+              className="w-auto h-auto drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]"
             />
           </Link>
 

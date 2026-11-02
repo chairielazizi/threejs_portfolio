@@ -46,6 +46,7 @@ const Projects = () => {
               src={currentProject.spotlight}
               alt="spotlight"
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="rounded-xl object-cover"
             />
           </div>
@@ -60,7 +61,7 @@ const Projects = () => {
               alt="logo"
               width={40}
               height={40}
-              className="shadow-sm"
+              className="w-auto h-auto shadow-sm"
             />
           </div>
 
@@ -83,7 +84,7 @@ const Projects = () => {
               <div className="flex items-center gap-2">
                 {currentProject.tags.map((tech, index) => (
                   <div key={index} className="tech-logo bg-black/30 border border-white/10 rounded-lg p-1.5 backdrop-blur-md">
-                    <Image src={tech.path} alt={tech.name} width={32} height={32} />
+                    <Image src={tech.path} alt={tech.name} width={32} height={32} className="w-auto h-auto" />
                   </div>
                 ))}
               </div>
