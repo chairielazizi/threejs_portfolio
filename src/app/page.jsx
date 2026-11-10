@@ -10,15 +10,17 @@ import React from "react";
 
 const Home = () => {
   return (
-    <main className="max-w-6xl mx-auto">
+    <main className="w-full overflow-x-clip">
       <Navbar />
       <Main />
-      <About />
-      <Skills />
-      <Projects />
-      <Experience />
-      <Contact />
-      <Footer />
+      <div className="max-w-6xl mx-auto">
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Contact />
+        <Footer />
+      </div>
     </main>
   );
 };

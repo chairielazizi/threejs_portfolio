@@ -24,9 +24,10 @@ import {
 } from "developer-icons";
 import { SiGithubactions, SiTerraform } from "react-icons/si";
 import { spaceGrotesk } from "@/app/fonts";
-import { calculateSizes } from "@/constants";
 import CanvasLoader from "@/3d-models/CanvasLoader";
-import HackerRoom from "@/3d-models/HackerRoom";
+import ComputerSciFi from "@/3d-models/ComputerSciFi";
+import ComputerCard from "@/3d-models/ComputerCard";
+import { CircuitBoard, ArduinoUno } from "@/3d-models/InverseHardware";
 import Drone from "@/3d-models/Drone";
 import MainCamera from "@/3d-models/MainCamera";
 
@@ -47,27 +48,27 @@ const TECH_STACK = [
 const Main = () => {
   const [activeCamera, setActiveCamera] = useState("desk");
 
-  const isSmall = useMediaQuery({ maxWidth: 480 });
   const isMobile = useMediaQuery({ maxWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 768, maxWidth: 1024 });
-
-  const sizes = calculateSizes(isSmall, isMobile, isTablet);
 
   // Camera presets tuned to focus precisely on each target
   const cameraPresets = useMemo(
     () => [
-      { id: "desk", label: "Desk Setup", pos: [0, 0, 30] },
+      {
+        id: "desk",
+        label: "Desk Setup",
+        pos: isMobile ? [0, 0, 14] : [0, 0, 11.5],
+      },
       {
         id: "screens",
         label: "Computer & Rig",
-        // Calibrated to zoom directly into the computer screens and keyboard on the desk
-        pos: isMobile ? [0, 2.5, 14] : [0, 0.5, 12],
+        // Zooms directly into the sci-fi holographic console & screens
+        pos: isMobile ? [0, 0.1, 6.4] : [0, 0.2, 5.8],
       },
       {
         id: "drone",
         label: "Drone Cam",
-        // Dynamic overhead view focused on the hovering cyber drone
-        pos: isMobile ? [-5.5, 1.5, 16] : [-8.5, 4.0, 18],
+        // Focused view on the hovering cyber drone below header text
+        pos: isMobile ? [-2.0, 1.9, 4.8] : [-5.6, 2.2, 4.5],
       },
     ],
     [isMobile]
@@ -184,38 +185,84 @@ const Main = () => {
             gl={{ powerPreference: "high-performance", antialias: false }}
           >
             <Suspense fallback={<CanvasLoader />}>
-              <PerspectiveCamera makeDefault position={[0, 0, 30]} />
+              <PerspectiveCamera
+                makeDefault
+                position={isMobile ? [0, 0, 14] : [0, 0, 11.5]}
+              />
 
               <MainCamera cameraPos={activePreset.pos}>
-                <HackerRoom
-                  position={[-1.3, isMobile ? -8.0 : -10.5, -10]}
-                  rotation={[-3.0, 3.2, 6.3]}
-                  scale={sizes.deskScale}
+                <ComputerSciFi
+                  position={[0, isMobile ? -0.85 : -0.85, 0]}
+                  rotation={[0.16, 0, 0]}
+                  scale={isMobile ? 0.24 : 0.42}
                 />
               </MainCamera>
 
-              {/* Drone positioned in upper space */}
+              {/* Cyber Drone floating on the upper-left */}
               <group>
                 <Drone
-                  position={sizes.dronePosition}
-                  rotation={[0, Math.PI, 0]}
+                  position={isMobile ? [-2.0, 0.7, 0.5] : [-5.6, 0.95, 0.5]}
+                  rotation={[0, Math.PI * 0.85, 0]}
+                  scale={isMobile ? 0.22 : 0.34}
                 />
               </group>
 
-              {/* Lighting tuned for Cyberpunk glow */}
-              <ambientLight intensity={1.2} />
-              <directionalLight position={[10, 10, 10]} intensity={0.8} />
+              {/* Circuit Board below the Drone (inverse mouse tracking) */}
+              <CircuitBoard
+                position={isMobile ? [-2.0, -1.6, 0.6] : [-5.6, -1.5, 0.6]}
+                rotation={[0, 0.28, 0]}
+                scale={isMobile ? 2.1 : 3.6}
+              />
+
+              {/* Floating Sci-Fi Computer Card matched to Drone size on the upper-right */}
+              <group>
+                <ComputerCard
+                  position={isMobile ? [2.0, 0.85, 0.5] : [5.6, 1.15, 0.5]}
+                  rotation={[0.08, -0.35, 0.04]}
+                  scale={isMobile ? 0.034 : 0.052}
+                />
+              </group>
+
+              {/* Arduino Uno below the Computer Card (inverse mouse tracking) */}
+              <ArduinoUno
+                position={isMobile ? [2.0, -1.6, 0.6] : [5.6, -1.5, 0.6]}
+                rotation={[0, -0.28, 0.18]}
+                scale={isMobile ? 12 : 20}
+              />
+
+              {/* Lighting tuned for Console, Drone, Card, Circuit Board & Arduino */}
+              <ambientLight intensity={1.6} />
+              <directionalLight position={[6, 10, 10]} intensity={1.4} />
+              <directionalLight position={[-8, 4, 6]} intensity={0.85} color="#06b6d4" />
               <pointLight
-                position={[-1.3, -6, -6]}
-                color="#10b981"
-                intensity={3.2}
-                distance={22}
+                position={[0, -1.8, 4.5]}
+                color="#38bdf8"
+                intensity={1.8}
+                distance={14}
               />
               <pointLight
-                position={[6, 3, -4]}
-                color="#06b6d4"
-                intensity={2.2}
-                distance={20}
+                position={[0, 1.2, 4]}
+                color="#10b981"
+                intensity={2.4}
+                distance={18}
+              />
+              <pointLight
+                position={[-5.6, -1.2, 3.2]}
+                color="#34d399"
+                intensity={2.8}
+                distance={12}
+              />
+              <pointLight
+                position={[5.6, -1.2, 3.2]}
+                color="#22d3ee"
+                intensity={2.8}
+                distance={12}
+              />
+              <pointLight
+                position={[5.6, 1.2, 3.5]}
+                color="#c084fc"
+                intensity={2.8}
+                distance={12}
               />
             </Suspense>
           </Canvas>

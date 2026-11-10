@@ -40,7 +40,7 @@ const Navbar = () => {
               width={96}
               height={48}
               priority
-              className="w-auto h-auto drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]"
+              className="h-8 w-auto sm:h-14 drop-shadow-[0_0_12px_rgba(16,185,129,0.8)]"
             />
           </Link>
 
