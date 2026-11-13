@@ -154,33 +154,12 @@ const About = () => {
           </div>
         </div>
 
-        {/* skills */}
+        {/* skills radar visual */}
         <div className="col-span-1 md:col-span-1 xl:col-span-1">
-          <div className="grid-container items-center justify-between">
-            {/* Live Orbital Tech Radar replacing grid2-1.png */}
-            <TechRadar />
-            <div className="w-full">
-              <h2 className="grid-headtext">Skills</h2>
-              <div className="flex flex-wrap gap-2.5 hover:shadow-2xl hover:shadow-emerald-500 hover:bg-transparent bg-transparent rounded-xl p-2 transition-all duration-500 ease-in-out">
-                <p className="grid-subtext">Docker</p>
-                <p className="grid-subtext">Docker Compose</p>
-                <p className="grid-subtext">Linux</p>
-                <p className="grid-subtext">GitLab CI/CD</p>
-                <p className="grid-subtext">AWS</p>
-                <p className="grid-subtext">Kubernetes</p>
-                <p className="grid-subtext">Terraform</p>
-                <p className="grid-subtext">Cloudflare</p>
-                <p className="grid-subtext">Nginx</p>
-                <p className="grid-subtext">Java</p>
-                <p className="grid-subtext">Spring Boot</p>
-                <p className="grid-subtext">TypeScript</p>
-                <p className="grid-subtext">ReactJS</p>
-                <p className="grid-subtext">Next.js</p>
-                <p className="grid-subtext">Angular</p>
-                <p className="grid-subtext">PostgreSQL</p>
-                <p className="grid-subtext">Oracle SQL</p>
-                <p className="grid-subtext">Git</p>
-              </div>
+          <div className="grid-container items-center justify-center min-h-[320px] sm:min-h-[360px] relative overflow-hidden">
+            {/* Live Orbital Tech Radar */}
+            <div className="scale-105 sm:scale-115 transition-transform duration-300 flex items-center justify-center my-auto">
+              <TechRadar />
             </div>
           </div>
         </div>

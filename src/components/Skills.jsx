@@ -1,133 +1,158 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import {
+  SiDocker,
+  SiGitlab,
+  SiGithubactions,
+  SiLinux,
+  SiCloudflare,
+  SiNginx,
+  SiAmazonwebservices,
+  SiKubernetes,
+  SiTerraform,
+  SiSpringboot,
+  SiApachegroovy,
+  SiDotnet,
+  SiLaravel,
+  SiTypescript,
+  SiJavascript,
+  SiReact,
+  SiNextdotjs,
+  SiAngular,
+  SiVuedotjs,
+  SiTailwindcss,
+  SiPostgresql,
+  SiOracle,
+  SiMysql,
+  SiMongodb,
+  SiGrafana,
+  SiPrometheus,
+  SiUptimekuma,
+  SiNetdata,
+  SiTailscale,
+  SiAuthentik,
+  SiGit,
+  SiJira,
+  SiSelenium,
+  SiJunit5,
+} from "react-icons/si";
+import { FaJava } from "react-icons/fa6";
+import { TbApi, TbLogs, TbTestPipe, TbBrandCSharp } from "react-icons/tb";
+import { GrServices } from "react-icons/gr";
 
 const CATS = [
   {
     id: "devops",
     title: "DevOps & Cloud",
-    color: "var(--teal-bright)",
+    color: "#22d3ee",
     skills: [
-      "Docker",
-      "Docker Compose",
-      "GitLab CI/CD",
-      "Linux",
-      "Cloudflare Tunnel",
-      "Nginx",
-      "AWS",
-      "Kubernetes",
-      "Terraform",
+      { name: "Docker", icon: SiDocker, color: "#2496ED" },
+      { name: "Docker Compose", icon: SiDocker, color: "#38BDF8" },
+      { name: "GitLab CI/CD", icon: SiGitlab, color: "#FC6D26" },
+      { name: "GitHub Actions", icon: SiGithubactions, color: "#2088FF" },
+      { name: "Linux", icon: SiLinux, color: "#FCC624" },
+      { name: "Cloudflare Tunnel", icon: SiCloudflare, color: "#F38020" },
+      { name: "Nginx", icon: SiNginx, color: "#009639" },
+      { name: "AWS", icon: SiAmazonwebservices, color: "#FF9900" },
+      { name: "Kubernetes", icon: SiKubernetes, color: "#326CE5" },
+      { name: "Terraform", icon: SiTerraform, color: "#844FBA" },
     ],
   },
   {
     id: "backend",
     title: "Backend Development",
-    color: "var(--em-main)",
-    skills: ["Java", "Spring Boot", "RESTful APIs", "Groovy", "C#", "ASP.NET", "PHP / Laravel"],
+    color: "#10b981",
+    skills: [
+      { name: "Java", icon: FaJava, color: "#EA2D2E" },
+      { name: "Spring Boot", icon: SiSpringboot, color: "#6DB33F" },
+      { name: "RESTful APIs", icon: TbApi, color: "#22D3EE" },
+      { name: "Groovy", icon: SiApachegroovy, color: "#38BDF8" },
+      { name: "C#", icon: TbBrandCSharp, color: "#A855F7" },
+      { name: "ASP.NET", icon: SiDotnet, color: "#8B5CF6" },
+      { name: "PHP / Laravel", icon: SiLaravel, color: "#FF2D20" },
+    ],
   },
   {
     id: "frontend",
     title: "Frontend Development",
-    color: "var(--em-bright)",
-    skills: ["TypeScript", "JavaScript", "ReactJS", "Next.js", "Angular", "Vue.js", "Tailwind CSS"],
+    color: "#34d399",
+    skills: [
+      { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
+      { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+      { name: "ReactJS", icon: SiReact, color: "#61DAFB" },
+      { name: "Next.js", icon: SiNextdotjs, color: "#E5E7EB" },
+      { name: "Angular", icon: SiAngular, color: "#DD0031" },
+      { name: "Vue.js", icon: SiVuedotjs, color: "#4FC08D" },
+      { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4" },
+    ],
   },
   {
     id: "database",
     title: "Database & Storage",
-    color: "var(--teal-main)",
-    skills: ["PostgreSQL", "Oracle SQL", "MySQL", "MongoDB"],
+    color: "#0d9488",
+    skills: [
+      { name: "PostgreSQL", icon: SiPostgresql, color: "#60A5FA" },
+      { name: "Oracle SQL", icon: SiOracle, color: "#F80000" },
+      { name: "MySQL", icon: SiMysql, color: "#38BDF8" },
+      { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+    ],
   },
   {
     id: "monitoring",
     title: "Monitoring & Observability",
-    color: "var(--em-neon)",
-    skills: ["Grafana", "Prometheus", "Uptime Kuma", "Netdata", "Dozzle"],
+    color: "#059669",
+    skills: [
+      { name: "Grafana", icon: SiGrafana, color: "#F46800" },
+      { name: "Prometheus", icon: SiPrometheus, color: "#E6522C" },
+      { name: "Uptime Kuma", icon: SiUptimekuma, color: "#5CD895" },
+      { name: "Netdata", icon: SiNetdata, color: "#00AB44" },
+      { name: "Dozzle", icon: TbLogs, color: "#38BDF8" },
+    ],
   },
   {
     id: "tools",
     title: "Networking & QA Tools",
-    color: "var(--teal-bright)",
-    skills: ["Tailscale VPN", "Authentik SSO", "Git", "ServiceNow", "Jira", "Selenium", "JUnit", "Mockito"],
+    color: "#22d3ee",
+    skills: [
+      { name: "Tailscale VPN", icon: SiTailscale, color: "#60A5FA" },
+      { name: "Authentik SSO", icon: SiAuthentik, color: "#FD4B2D" },
+      { name: "Git", icon: SiGit, color: "#F05032" },
+      { name: "ServiceNow", icon: GrServices, color: "#34D399" },
+      { name: "Jira", icon: SiJira, color: "#2684FF" },
+      { name: "Selenium", icon: SiSelenium, color: "#43B02A" },
+      { name: "JUnit", icon: SiJunit5, color: "#25A162" },
+      { name: "Mockito", icon: TbTestPipe, color: "#4ADE80" },
+    ],
   },
 ];
-
-/*
-const BARS = [
-  { name: "Java / Spring Boot", pct: 90, color: "var(--em-main)" },
-  { name: "Docker & Containerization", pct: 88, color: "var(--teal-bright)" },
-  { name: "Linux & Homelab Infrastructure", pct: 85, color: "var(--em-neon)" },
-  { name: "ReactJS / Next.js", pct: 85, color: "var(--em-bright)" },
-  { name: "CI/CD & Cloud (AWS)", pct: 80, color: "var(--teal-main)" },
-  { name: "Angular", pct: 80, color: "var(--teal-bright)" },
-];
-
-function Bar({ name, pct, color }) {
-  const barRef = useRef(null);
-
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      ([e]) => {
-        if (e.isIntersecting && barRef.current) {
-          setTimeout(() => {
-            if (barRef.current) barRef.current.style.width = pct + "%";
-          }, 300);
-        }
-      },
-      { threshold: 0.5 }
-    );
-    const el = barRef.current?.parentElement?.parentElement;
-    if (el) obs.observe(el);
-    return () => obs.disconnect();
-  }, [pct]);
-
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "0.875rem" }}>
-        <span style={{ color: "var(--tx-secondary)", fontWeight: 500 }}>{name}</span>
-        <span style={{ color, fontWeight: 600 }}>{pct}%</span>
-      </div>
-      <div style={{ height: 6, borderRadius: 3, background: "rgba(255,255,255,.06)", overflow: "hidden" }}>
-        <div
-          ref={barRef}
-          style={{
-            height: "100%",
-            width: "0%",
-            borderRadius: 3,
-            transition: "width 1s ease-out",
-            background: `linear-gradient(to right, ${color}, ${color}80)`,
-            boxShadow: `0 0 8px ${color}60`,
-          }}
-        />
-      </div>
-    </div>
-  );
-}
-*/
 
 const Skills = () => {
   const ref = useRef(null);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.querySelectorAll(".reveal").forEach((el, i) => {
-              setTimeout(() => el.classList.add("active"), i * 100);
-            });
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("active");
+            observer.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.05, rootMargin: "100px 0px" }
     );
-    if (ref.current) obs.observe(ref.current);
-    return () => obs.disconnect();
+
+    const elements = ref.current?.querySelectorAll(".reveal");
+    elements?.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
   }, []);
 
   return (
     <section id="skills" ref={ref} className="c-space my-20">
       {/* Section header */}
-      <div className="reveal" style={{ marginBottom: "3.5rem" }}>
+      <div className="reveal mb-12">
         <div className="sec-divider mb-8" />
         <p className="sec-tag">/ Skills</p>
         <h2 className="head-text">
@@ -135,99 +160,64 @@ const Skills = () => {
         </h2>
       </div>
 
-      {/* Skills grid */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "1.25rem",
-          marginBottom: "1.5rem",
-        }}
-      >
+      {/* Skills grid: 3 cols on desktop (2 rows of 3), 2 cols on tablet, 1 on mobile */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">
         {CATS.map(({ id, title, color, skills }) => (
           <div
             key={id}
-            className="glass-card reveal"
-            style={{ padding: "1.5rem", display: "flex", flexDirection: "column", gap: "1rem" }}
+            className="glass-card reveal rounded-2xl p-5 sm:p-6 flex flex-col gap-4 border border-white/10 hover:border-emerald-500/40 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/5 group"
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <div
-                style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: "50%",
-                  background: color,
-                  boxShadow: `0 0 8px ${color}`,
-                }}
-              />
-              <h3
-                style={{
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  color: "var(--tx-primary)",
-                  textTransform: "uppercase",
-                  letterSpacing: "0.1em",
-                }}
-              >
-                {title}
-              </h3>
+            {/* Category Header */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div
+                  className="w-2.5 h-2.5 rounded-full shrink-0"
+                  style={{
+                    background: color,
+                    boxShadow: `0 0 10px ${color}`,
+                  }}
+                />
+                <h3 className="text-xs font-bold text-[var(--tx-primary)] uppercase tracking-wider font-mono">
+                  {title}
+                </h3>
+              </div>
+              <span className="text-[10px] font-mono text-white/45 px-2 py-0.5 rounded-full bg-white/5 border border-white/5">
+                {skills.length} tools
+              </span>
             </div>
-            <div style={{ height: 1, background: `linear-gradient(to right, ${color}50, transparent)` }} />
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
-              {skills.map((s) => (
-                <span
-                  key={s}
-                  className="skill-tag"
-                  style={{ color, borderColor: `${color}30`, background: `${color}0d` }}
-                  onMouseEnter={(e) => {
-                    const el = e.currentTarget;
-                    el.style.borderColor = `${color}70`;
-                    el.style.background = `${color}1a`;
-                    el.style.boxShadow = `0 0 10px ${color}30`;
-                  }}
-                  onMouseLeave={(e) => {
-                    const el = e.currentTarget;
-                    el.style.borderColor = `${color}30`;
-                    el.style.background = `${color}0d`;
-                    el.style.boxShadow = "none";
-                  }}
-                >
-                  {s}
-                </span>
-              ))}
+
+            {/* Divider */}
+            <div
+              className="h-px w-full"
+              style={{
+                background: `linear-gradient(to right, ${color}60, ${color}10, transparent)`,
+              }}
+            />
+
+            {/* Badges with Logo */}
+            <div className="flex flex-wrap gap-2 pt-0.5">
+              {skills.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <span
+                    key={s.name}
+                    className="group/badge inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium text-white/90 bg-black/50 border backdrop-blur-md transition-all duration-200 hover:text-white hover:bg-black/80 hover:scale-[1.03] hover:shadow-md cursor-default select-none"
+                    style={{
+                      borderColor: `${color}30`,
+                    }}
+                  >
+                    <Icon
+                      className="w-3.5 h-3.5 shrink-0 transition-transform duration-200 group-hover/badge:scale-110"
+                      style={s.color ? { color: s.color } : { color }}
+                    />
+                    <span className="tracking-tight">{s.name}</span>
+                  </span>
+                );
+              })}
             </div>
           </div>
         ))}
       </div>
-
-      {/* Proficiency bars - hidden for now */}
-      {/*
-      <div className="glass-card reveal" style={{ padding: "2rem 2.5rem" }}>
-        <p
-          style={{
-            fontSize: "0.75rem",
-            fontWeight: 700,
-            color: "var(--tx-dim)",
-            textTransform: "uppercase",
-            letterSpacing: "0.1em",
-            marginBottom: "1.5rem",
-          }}
-        >
-          Core Proficiency
-        </p>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-            gap: "1.25rem",
-          }}
-        >
-          {BARS.map((b) => (
-            <Bar key={b.name} {...b} />
-          ))}
-        </div>
-      </div>
-      */}
     </section>
   );
 };

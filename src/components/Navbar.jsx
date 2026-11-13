@@ -65,8 +65,8 @@ const Navbar = () => {
                     ? i === 0
                       ? "rotate(45deg) translate(5px,5px)"
                       : i === 2
-                      ? "rotate(-45deg) translate(5px,-5px)"
-                      : "none"
+                        ? "rotate(-45deg) translate(5px,-5px)"
+                        : "none"
                     : "none",
                   opacity: isOpen && i === 1 ? 0 : 1,
                 }}
@@ -111,11 +111,10 @@ const NavItems = ({ mobile = false, onClose }) => {
             offset={-80}
             activeClass="nav-active"
             onClick={onClose}
-            className={`nav-li_a relative block cursor-pointer transition-colors duration-200 text-sm font-medium ${
-              mobile
+            className={`nav-li_a relative block cursor-pointer transition-colors duration-200 text-sm font-medium ${mobile
                 ? "py-3 px-4 rounded-xl hover:bg-[rgba(52,211,153,.08)]"
                 : "py-2 px-4 rounded-lg"
-            }`}
+              }`}
             style={{ color: "var(--tx-secondary)", textDecoration: "none" }}
           >
             {name}

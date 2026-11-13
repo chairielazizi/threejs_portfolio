@@ -414,7 +414,7 @@ export const workExperiences = [
     position: "Packaged App Development Associate",
     duration: "April 2025 - Present",
     title: [
-      "● Client Engagement: Roche – COSMOS Pharmacovigilance Platform (GxP-Regulated)",
+      "● Client Engagement: Roche – Pharmacovigilance Platform (GxP-Regulated)",
       "● Engineer full-stack compliance features using Java 17, Spring Boot 3, Hibernate/JPA, MyBatis, Oracle PL/SQL, and AngularJS within a multi-node JBoss cluster",
       "● Deploy code across an enterprise GitLab CI/CD pipeline (Build → Test → SIT → UAT → PROD) with automated SonarQube, JaCoCo, and PIT mutation quality gates, enforcing full Jira traceability and ServiceNow change management",
       "● Maintain and expand an automated Spock (Groovy) testing suite of 800+ specs, collaborating with internal teams to uphold strict 90% test coverage standards",

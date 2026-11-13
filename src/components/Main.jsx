@@ -62,13 +62,13 @@ const Main = () => {
         id: "screens",
         label: "Computer & Rig",
         // Zooms directly into the sci-fi holographic console & screens
-        pos: isMobile ? [0, 0.1, 6.4] : [0, 0.2, 5.8],
+        pos: isMobile ? [0, 0.65, 6.4] : [0, 0.2, 5.8],
       },
       {
         id: "drone",
         label: "Drone Cam",
         // Focused view on the hovering cyber drone below header text
-        pos: isMobile ? [-2.0, 1.9, 4.8] : [-5.6, 2.2, 4.5],
+        pos: isMobile ? [-2.3, 1.3, 4.8] : [-5.6, 2.2, 4.5],
       },
     ],
     [isMobile]
@@ -192,42 +192,42 @@ const Main = () => {
 
               <MainCamera cameraPos={activePreset.pos}>
                 <ComputerSciFi
-                  position={[0, isMobile ? -0.85 : -0.85, 0]}
+                  position={[0, isMobile ? 0.45 : -0.85, 0]}
                   rotation={[0.16, 0, 0]}
-                  scale={isMobile ? 0.24 : 0.42}
+                  scale={isMobile ? 0.22 : 0.42}
                 />
               </MainCamera>
 
               {/* Cyber Drone floating on the upper-left */}
               <group>
                 <Drone
-                  position={isMobile ? [-2.0, 0.7, 0.5] : [-5.6, 0.95, 0.5]}
+                  position={isMobile ? [-2.3, 0.8, 0.5] : [-5.6, 0.95, 0.5]}
                   rotation={[0, Math.PI * 0.85, 0]}
-                  scale={isMobile ? 0.22 : 0.34}
+                  scale={isMobile ? 0.14 : 0.34}
                 />
               </group>
 
               {/* Circuit Board below the Drone (inverse mouse tracking) */}
               <CircuitBoard
-                position={isMobile ? [-2.0, -1.6, 0.6] : [-5.6, -1.5, 0.6]}
+                position={isMobile ? [-2.2, -1.35, 0.6] : [-5.6, -1.5, 0.6]}
                 rotation={[0, 0.28, 0]}
-                scale={isMobile ? 2.1 : 3.6}
+                scale={isMobile ? 1.7 : 3.6}
               />
 
               {/* Floating Sci-Fi Computer Card matched to Drone size on the upper-right */}
               <group>
                 <ComputerCard
-                  position={isMobile ? [2.0, 0.85, 0.5] : [5.6, 1.15, 0.5]}
+                  position={isMobile ? [2.35, 1.3, 0.5] : [5.6, 1.15, 0.5]}
                   rotation={[0.08, -0.35, 0.04]}
-                  scale={isMobile ? 0.034 : 0.052}
+                  scale={isMobile ? 0.026 : 0.052}
                 />
               </group>
 
               {/* Arduino Uno below the Computer Card (inverse mouse tracking) */}
               <ArduinoUno
-                position={isMobile ? [2.0, -1.6, 0.6] : [5.6, -1.5, 0.6]}
+                position={isMobile ? [2.2, -1.35, 0.6] : [5.6, -1.5, 0.6]}
                 rotation={[0, -0.28, 0.18]}
-                scale={isMobile ? 12 : 20}
+                scale={isMobile ? 10 : 20}
               />
 
               {/* Lighting tuned for Console, Drone, Card, Circuit Board & Arduino */}
