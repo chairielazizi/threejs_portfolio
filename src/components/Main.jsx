@@ -1,28 +1,20 @@
 "use client";
-import React, { useState, useEffect, Suspense, useMemo } from "react";
-import { PerspectiveCamera } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import React, { useState, useEffect, Suspense, useMemo, useRef } from "react";
+import { PerspectiveCamera, PerformanceMonitor } from "@react-three/drei";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { ErrorBoundary } from "react-error-boundary";
 import { useMediaQuery } from "react-responsive";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useMotionValueEvent,
+} from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
 import { Link } from "react-scroll";
 import { HiArrowDown, HiArrowRight } from "react-icons/hi2";
-import {
-  Docker,
-  Kubernetes,
-  AWS,
-  Linux,
-  GitLab,
-  Java,
-  Spring,
-  GitHubDark,
-  GitHubLight,
-  NextJsWordmark,
-  TypeScript,
-  Python,
-} from "developer-icons";
-import { SiGithubactions, SiTerraform } from "react-icons/si";
+import { easing } from "maath";
 import { spaceGrotesk } from "@/app/fonts";
 import CanvasLoader from "@/3d-models/CanvasLoader";
 import ComputerSciFi from "@/3d-models/ComputerSciFi";
@@ -31,56 +23,194 @@ import { CircuitBoard, ArduinoUno } from "@/3d-models/InverseHardware";
 import Drone from "@/3d-models/Drone";
 import MainCamera from "@/3d-models/MainCamera";
 
-const TECH_STACK = [
-  { name: "Docker", icon: Docker },
-  { name: "Kubernetes", icon: Kubernetes },
-  { name: "AWS", icon: AWS },
-  { name: "Terraform", icon: SiTerraform, color: "#844FBA" },
-  { name: "Java 17", icon: Java },
-  { name: "Spring Boot", icon: Spring },
-  { name: "Linux", icon: Linux },
-  { name: "GitLab CI/CD", icon: GitLab },
-  { name: "Github Actions", icon: GitHubLight },
-  { name: "Python", icon: Python },
-  { name: "TypeScript", icon: TypeScript },
-];
+function clamp01(v) {
+  return Math.max(0, Math.min(1, v));
+}
+
+function smoothstep(edge0, edge1, x) {
+  const t = clamp01((x - edge0) / (edge1 - edge0));
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * Wraps each flanking 3D hardware piece so it sweeps smoothly outward & past
+ * the camera lens as the user scrolls into the central Sci-Fi console.
+ */
+const ParallaxHardware = ({
+  children,
+  scrollProgressRef,
+  flyOffset = [0, 0, 0],
+}) => {
+  const ref = useRef();
+
+  useFrame((_, delta) => {
+    if (!ref.current) return;
+    const p = scrollProgressRef ? scrollProgressRef.current : 0;
+    const fly = smoothstep(0.05, 0.72, p);
+    easing.damp3(
+      ref.current.position,
+      [flyOffset[0] * fly, flyOffset[1] * fly, flyOffset[2] * fly],
+      0.24,
+      delta
+    );
+  });
+
+  return <group ref={ref}>{children}</group>;
+};
 
 const Main = () => {
+  const sectionRef = useRef(null);
+  const scrollProgressRef = useRef(0);
+  const telemetryRef = useRef(null);
+  const scrollPctRef = useRef(null);
+  const scrollBarRef = useRef(null);
+
+  const [hasMounted, setHasMounted] = useState(false);
   const [activeCamera, setActiveCamera] = useState("desk");
+  const [pressedKey, setPressedKey] = useState(null);
+  const [isHeroInView, setIsHeroInView] = useState(true);
+  const [dpr, setDpr] = useState(1.25);
 
-  const isMobile = useMediaQuery({ maxWidth: 768 });
+  const isMobileQuery = useMediaQuery({ maxWidth: 768 });
+  const isMobile = hasMounted && isMobileQuery;
 
-  // Camera presets tuned to focus precisely on each target
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  // Cap DPR to 1 on mobile (55% fewer GPU pixels) and 1.5 on desktop
+  useEffect(() => {
+    if (!hasMounted) return;
+    setDpr(isMobileQuery ? 1 : 1.5);
+  }, [hasMounted, isMobileQuery]);
+
+  // Pause WebGL rendering completely (0% GPU) when user scrolls past the Hero section
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsHeroInView(entry.isIntersecting),
+      { rootMargin: "150px 0px", threshold: 0 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Scroll choreography across the pinned ~225vh Hero container
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 26,
+    mass: 0.25,
+  });
+
+  // Sync smooth scroll value to Three.js ref & HUD readout without re-rendering React
+  useMotionValueEvent(smoothProgress, "change", (latest) => {
+    scrollProgressRef.current = latest;
+    const pct = Math.round(latest * 100);
+    if (scrollPctRef.current) {
+      scrollPctRef.current.textContent = `SCROLL ${String(pct).padStart(2, "0")}%`;
+    }
+    if (scrollBarRef.current) {
+      scrollBarRef.current.style.transform = `scaleX(${Math.max(0.04, latest)})`;
+    }
+  });
+
+  // Act 1 -> Act 2: Top editorial header recedes smoothly as camera dives in
+  const headerOpacity = useTransform(smoothProgress, [0.02, 0.34], [1, 0]);
+  const headerY = useTransform(smoothProgress, [0, 0.36], [0, -56]);
+
+  // Subtle scroll cue visible only near top
+  const scrollCueOpacity = useTransform(smoothProgress, [0, 0.16], [1, 0]);
+
+  // Act 2: Architectural Enterprise & Homelab spec cards reveal during console close-up
+  const midHudOpacity = useTransform(
+    smoothProgress,
+    [0.28, 0.46, 0.74, 0.9],
+    [0, 1, 1, 0]
+  );
+  const midHudLeftX = useTransform(smoothProgress, [0.28, 0.48], [-28, 0]);
+  const midHudRightX = useTransform(smoothProgress, [0.28, 0.48], [28, 0]);
+
+  // Act 3: Bottom command dock fades cleanly before handing off to #about
+  const bottomBarOpacity = useTransform(smoothProgress, [0.8, 0.96], [1, 0]);
+  const bottomBarY = useTransform(smoothProgress, [0.8, 0.96], [0, 18]);
+
+  // Camera presets calibrated to the asymmetric editorial staging
   const cameraPresets = useMemo(
     () => [
       {
         id: "desk",
-        label: "Desk Setup",
+        keyNum: "1",
+        label: "Desk",
         pos: isMobile ? [0, 0, 14] : [0, 0, 11.5],
       },
       {
         id: "screens",
-        label: "Computer & Rig",
-        // Zooms directly into the sci-fi holographic console & screens
-        pos: isMobile ? [0, 0.65, 6.4] : [0, 0.2, 5.8],
+        keyNum: "2",
+        label: "Console",
+        pos: isMobile ? [0, 0.05, 6.8] : [1.05, -0.35, 5.9],
       },
       {
         id: "drone",
-        label: "Drone Cam",
-        // Focused view on the hovering cyber drone below header text
-        pos: isMobile ? [-2.3, 1.3, 4.8] : [-5.6, 2.2, 4.5],
+        keyNum: "3",
+        label: "Drone",
+        pos: isMobile ? [-2.2, 0.85, 5.0] : [-5.15, -0.25, 4.3],
+      },
+      {
+        id: "cpu",
+        keyNum: "4",
+        label: "CPU",
+        pos: isMobile ? [-2.15, -1.6, 3.8] : [-4.85, -2.25, 3.85],
+      },
+      {
+        id: "arduino",
+        keyNum: "5",
+        label: "Arduino",
+        pos: isMobile ? [2.15, -1.6, 3.8] : [6.15, -1.9, 3.85],
       },
     ],
     [isMobile]
   );
 
-  // Keyboard shortcut listener: Press 1, 2, or 3 to switch camera views
+  const divePos = useMemo(
+    () => (isMobile ? [0, -0.05, 8.2] : [0, -0.3, 6.1]),
+    [isMobile]
+  );
+
+  // Tactile keycap press trigger (designspells.com craft)
+  const triggerCameraSelect = (id, keyNum) => {
+    setActiveCamera(id);
+    setPressedKey(keyNum);
+    // If user is mid-scroll dive and picks a hardware camera, gently return to top so target is in frame
+    if (scrollProgressRef.current > 0.15) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    setTimeout(() => {
+      setPressedKey((prev) => (prev === keyNum ? null : prev));
+    }, 150);
+  };
+
+  // Keyboard shortcuts [1]-[5] with tactile keycap depression feedback
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
-      if (e.key === "1") setActiveCamera("desk");
-      if (e.key === "2") setActiveCamera("screens");
-      if (e.key === "3") setActiveCamera("drone");
+      if (
+        e.target.tagName === "INPUT" ||
+        e.target.tagName === "TEXTAREA" ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.altKey
+      )
+        return;
+      if (e.key === "1") triggerCameraSelect("desk", "1");
+      if (e.key === "2") triggerCameraSelect("screens", "2");
+      if (e.key === "3") triggerCameraSelect("drone", "3");
+      if (e.key === "4") triggerCameraSelect("cpu", "4");
+      if (e.key === "5") triggerCameraSelect("arduino", "5");
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
@@ -92,252 +222,382 @@ const Main = () => {
   return (
     <section
       id="home"
-      className="w-full min-h-screen flex flex-col justify-between relative overflow-hidden pt-24 sm:pt-32 pb-8"
+      ref={sectionRef}
+      className="relative w-full h-[215vh] sm:h-[230vh]"
     >
-      {/* Top Header Zone: Name, Typing Animation & High-signal Subtitle */}
-      <div className="c-space relative z-10 w-full flex flex-col items-center text-center max-w-4xl mx-auto">
-        {/* Status indicator badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-xs font-mono text-emerald-400 mb-3 backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.12)]"
-        >
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="tracking-wider uppercase">
-            SYS_ONLINE // KUALA LUMPUR (UTC+8)
-          </span>
-        </motion.div>
+      {/* Sticky Full-Viewport Interactive Stage */}
+      <div className="sticky top-0 w-full h-[100dvh] overflow-hidden flex flex-col justify-between pt-20 sm:pt-28 pb-5 sm:pb-7">
+        {/* Subtle Architectural Blueprint Grid (Refero surface restraint) */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage:
+              "linear-gradient(to right, rgba(52, 211, 153, 0.045) 1px, transparent 1px), linear-gradient(to bottom, rgba(52, 211, 153, 0.045) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
+            maskImage:
+              "radial-gradient(ellipse 80% 70% at 50% 45%, black 35%, transparent 100%)",
+            WebkitMaskImage:
+              "radial-gradient(ellipse 80% 70% at 50% 45%, black 35%, transparent 100%)",
+          }}
+        />
 
-        {/* Main Name Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          style={{ lineHeight: 1.15 }}
-          className={`font-bold tracking-tight text-white mb-2 ${spaceGrotesk.className}`}
-        >
-          <span className="block text-3xl sm:text-5xl lg:text-6xl text-[var(--tx-primary)]">
-            Hey There! I&apos;m <span className="gradient-text">Chairiel Azizi</span>
-          </span>
-        </motion.h1>
+        {/* Delicate Hairline Frame Corner Accents */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-5 sm:inset-x-10 top-20 sm:top-24 bottom-5 sm:bottom-7 border-x border-emerald-400/[0.06] hidden sm:block"
+        />
 
-        {/* Rotating 5-Role TypeAnimation */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex items-center justify-center gap-2 text-center mb-3"
-        >
-          <span className="text-[var(--tx-dim)] font-medium text-lg sm:text-2xl">
-            I am a
-          </span>
-          <TypeAnimation
-            sequence={[
-              "Aspiring DevOps Engineer",
-              2000,
-              "Software Engineer",
-              2000,
-              "Aspiring Cloud Engineer",
-              2000,
-              "Full Stack Developer",
-              2000,
-              "Java & Spring Boot Dev",
-              2000,
-            ]}
-            speed={150}
-            style={{
-              color: "var(--teal-bright)",
-              fontWeight: 600,
-              fontSize: "clamp(1.15rem, 2.5vw, 1.75rem)",
-            }}
-            wrapper="span"
-            repeat={Infinity}
-          />
-        </motion.div>
-
-        {/* High-signal Editorial Subtitle */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-[var(--tx-secondary)] text-sm sm:text-base max-w-xl mx-auto leading-relaxed font-normal"
-        >
-          Packaged App Developer building GxP-Regulated enterprise platforms
-          · Self-hosted homelab architect with 40+
-          Docker services.
-        </motion.p>
-      </div>
-
-      {/* 3D Scene Background with Calibrated Desk Placement */}
-      <div className="absolute inset-0 w-full h-full -z-0">
-        <ErrorBoundary
-          fallback={
-            <div className="text-white w-full h-full flex justify-center items-center">
-              Failed to load 3D scene.
-            </div>
-          }
-        >
-          <Canvas
-            className="w-full h-full"
-            dpr={[1, 1.5]}
-            performance={{ min: 0.5 }}
-            gl={{ powerPreference: "high-performance", antialias: false }}
+        {/* ================= 3D SCENE LAYER ================= */}
+        <div className="absolute inset-0 w-full h-full z-0">
+          <ErrorBoundary
+            fallback={
+              <div className="text-white w-full h-full flex justify-center items-center font-mono text-xs">
+                Failed to load 3D scene.
+              </div>
+            }
           >
-            <Suspense fallback={<CanvasLoader />}>
-              <PerspectiveCamera
-                makeDefault
-                position={isMobile ? [0, 0, 14] : [0, 0, 11.5]}
-              />
-
-              <MainCamera cameraPos={activePreset.pos}>
-                <ComputerSciFi
-                  position={[0, isMobile ? 0.45 : -0.85, 0]}
-                  rotation={[0.16, 0, 0]}
-                  scale={isMobile ? 0.22 : 0.42}
-                />
-              </MainCamera>
-
-              {/* Cyber Drone floating on the upper-left */}
-              <group>
-                <Drone
-                  position={isMobile ? [-2.3, 0.8, 0.5] : [-5.6, 0.95, 0.5]}
-                  rotation={[0, Math.PI * 0.85, 0]}
-                  scale={isMobile ? 0.14 : 0.34}
-                />
-              </group>
-
-              {/* Circuit Board below the Drone (inverse mouse tracking) */}
-              <CircuitBoard
-                position={isMobile ? [-2.2, -1.35, 0.6] : [-5.6, -1.5, 0.6]}
-                rotation={[0, 0.28, 0]}
-                scale={isMobile ? 1.7 : 3.6}
-              />
-
-              {/* Floating Sci-Fi Computer Card matched to Drone size on the upper-right */}
-              <group>
-                <ComputerCard
-                  position={isMobile ? [2.35, 1.3, 0.5] : [5.6, 1.15, 0.5]}
-                  rotation={[0.08, -0.35, 0.04]}
-                  scale={isMobile ? 0.026 : 0.052}
-                />
-              </group>
-
-              {/* Arduino Uno below the Computer Card (inverse mouse tracking) */}
-              <ArduinoUno
-                position={isMobile ? [2.2, -1.35, 0.6] : [5.6, -1.5, 0.6]}
-                rotation={[0, -0.28, 0.18]}
-                scale={isMobile ? 10 : 20}
-              />
-
-              {/* Lighting tuned for Console, Drone, Card, Circuit Board & Arduino */}
-              <ambientLight intensity={1.6} />
-              <directionalLight position={[6, 10, 10]} intensity={1.4} />
-              <directionalLight position={[-8, 4, 6]} intensity={0.85} color="#06b6d4" />
-              <pointLight
-                position={[0, -1.8, 4.5]}
-                color="#38bdf8"
-                intensity={1.8}
-                distance={14}
-              />
-              <pointLight
-                position={[0, 1.2, 4]}
-                color="#10b981"
-                intensity={2.4}
-                distance={18}
-              />
-              <pointLight
-                position={[-5.6, -1.2, 3.2]}
-                color="#34d399"
-                intensity={2.8}
-                distance={12}
-              />
-              <pointLight
-                position={[5.6, -1.2, 3.2]}
-                color="#22d3ee"
-                intensity={2.8}
-                distance={12}
-              />
-              <pointLight
-                position={[5.6, 1.2, 3.5]}
-                color="#c084fc"
-                intensity={2.8}
-                distance={12}
-              />
-            </Suspense>
-          </Canvas>
-        </ErrorBoundary>
-      </div>
-
-      {/* Bottom Command Dock: Action Buttons, Camera Presets & Tech Stack with Logos */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        className="c-space relative z-10 w-full flex flex-col items-center gap-3.5 mt-auto"
-      >
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3">
-          <Link
-            to="work"
-            smooth={true}
-            spy={true}
-            className="cursor-pointer group flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs uppercase tracking-wider transition-all duration-300 hover:shadow-[0_0_22px_rgba(16,185,129,0.45)] active:scale-95"
-          >
-            <span>View Work Experience</span>
-            <HiArrowDown className="w-3.5 h-3.5 transition-transform group-hover:translate-y-0.5" />
-          </Link>
-
-          <Link
-            to="projects"
-            smooth={true}
-            spy={true}
-            className="cursor-pointer group flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white/5 hover:bg-white/10 text-white font-medium text-xs uppercase tracking-wider border border-white/15 backdrop-blur-md transition-all duration-300 hover:border-emerald-500/40 active:scale-95"
-          >
-            <span>Projects & Homelab</span>
-            <HiArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 text-emerald-400" />
-          </Link>
-        </div>
-
-        {/* Interactive Camera Preset Dock */}
-        <div className="flex items-center gap-1.5 p-1.5 rounded-full bg-black/75 border border-white/15 backdrop-blur-md shadow-2xl">
-          {cameraPresets.map((preset, idx) => (
-            <button
-              key={preset.id}
-              onClick={() => setActiveCamera(preset.id)}
-              className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all duration-300 ${activeCamera === preset.id
-                ? "bg-emerald-500 text-black font-semibold shadow-[0_0_16px_rgba(16,185,129,0.5)]"
-                : "text-white/60 hover:text-white hover:bg-white/5"
-                }`}
+            <Canvas
+              className="w-full h-full"
+              frameloop={isHeroInView ? "always" : "never"}
+              dpr={dpr}
+              performance={{ min: 0.5 }}
+              gl={{
+                powerPreference: "high-performance",
+                antialias: !isMobile,
+                stencil: false,
+              }}
             >
-              <span className="opacity-60 mr-1.5">0{idx + 1}</span>
-              {preset.label}
-            </button>
-          ))}
-          <span className="hidden sm:inline text-[10px] font-mono text-white/35 px-2.5 border-l border-white/15">
-            [1-3]
-          </span>
+              <PerformanceMonitor
+                onDecline={() => setDpr(isMobile ? 0.75 : 1)}
+                onIncline={() => setDpr(isMobile ? 1 : 1.5)}
+              />
+              <Suspense fallback={<CanvasLoader />}>
+                <PerspectiveCamera
+                  makeDefault
+                  position={isMobile ? [0, 0, 14] : [0, 0, 11.5]}
+                />
+
+                <MainCamera
+                  cameraPos={activePreset.pos}
+                  divePos={divePos}
+                  scrollProgressRef={scrollProgressRef}
+                  isMobile={isMobile}
+                  telemetryRef={telemetryRef}
+                >
+                  <ComputerSciFi
+                    position={[0, isMobile ? -0.15 : -0.65, 0]}
+                    rotation={[0.16, 0, 0]}
+                    scale={isMobile ? 0.24 : 0.45}
+                  />
+                </MainCamera>
+
+                {/* Cyber Drone — positioned cleanly clear of left editorial headline */}
+                <ParallaxHardware
+                  scrollProgressRef={scrollProgressRef}
+                  flyOffset={isMobile ? [-2.6, 1.4, 4.2] : [-4.2, 0.8, 4.8]}
+                >
+                  <Drone
+                    position={isMobile ? [-2.2, 0.85, 0.5] : [-5.15, -0.45, 0.8]}
+                    rotation={[0, Math.PI * 0.85, 0]}
+                    scale={isMobile ? 0.14 : 0.32}
+                  />
+                </ParallaxHardware>
+
+                {/* Circuit Board below the Drone (inverse mouse tracking) */}
+                <ParallaxHardware
+                  scrollProgressRef={scrollProgressRef}
+                  flyOffset={isMobile ? [-2.6, -1.8, 4.2] : [-4.0, -2.1, 4.6]}
+                >
+                  <CircuitBoard
+                    position={isMobile ? [-2.15, -1.6, 0.6] : [-4.85, -2.25, 0.7]}
+                    rotation={[0, 0.28, 0]}
+                    scale={isMobile ? 1.7 : 3.4}
+                  />
+                </ParallaxHardware>
+
+                {/* Floating Sci-Fi Computer Card on upper-right */}
+                <ParallaxHardware
+                  scrollProgressRef={scrollProgressRef}
+                  flyOffset={isMobile ? [2.6, 1.6, 4.2] : [4.2, 1.8, 4.8]}
+                >
+                  <ComputerCard
+                    position={isMobile ? [2.25, 1.05, 0.5] : [5.85, 1.65, 0.5]}
+                    rotation={[0.08, -0.35, 0.04]}
+                    scale={isMobile ? 0.026 : 0.05}
+                  />
+                </ParallaxHardware>
+
+                {/* Arduino Uno below the Computer Card (inverse mouse tracking) */}
+                <ParallaxHardware
+                  scrollProgressRef={scrollProgressRef}
+                  flyOffset={isMobile ? [2.6, -1.8, 4.2] : [4.2, -2.0, 4.6]}
+                >
+                  <ArduinoUno
+                    position={isMobile ? [2.15, -1.6, 0.6] : [6.15, -1.9, 0.6]}
+                    rotation={[0, -0.28, 0.18]}
+                    scale={isMobile ? 10 : 19}
+                  />
+                </ParallaxHardware>
+
+                {/* Optimized 4-Light Rig: hemisphere + 2 directional + 1 accent pointLight */}
+                <hemisphereLight args={["#d1fae5", "#04120c", 1.35]} />
+                <ambientLight intensity={0.75} />
+                <directionalLight position={[6, 10, 10]} intensity={1.55} />
+                <directionalLight
+                  position={[-8, 4, 6]}
+                  intensity={0.95}
+                  color="#22d3ee"
+                />
+                <pointLight
+                  position={[0.6, 1.0, 4.5]}
+                  color="#10b981"
+                  intensity={2.0}
+                  distance={18}
+                />
+              </Suspense>
+            </Canvas>
+          </ErrorBoundary>
         </div>
 
-        {/* Tech Stack Pills with Logos (Option 1 feature integrated) */}
-        <div className="flex items-center justify-center gap-2 flex-wrap max-w-2xl px-2 pt-0.5">
-          {TECH_STACK.map((tech) => {
-            const Icon = tech.icon;
-            return (
-              <span
-                key={tech.name}
-                className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-mono text-white/80 bg-black/60 border border-white/10 backdrop-blur-md transition-all duration-300 hover:text-emerald-400 hover:border-emerald-500/40 hover:bg-black/80 hover:shadow-[0_0_12px_rgba(16,185,129,0.2)]"
-              >
-                <Icon
-                  className="w-3.5 h-3.5 shrink-0"
-                  style={tech.color ? { color: tech.color } : {}}
-                />
-                <span>{tech.name}</span>
+        {/* ================= ACT 1: TOP EDITORIAL HEADER ================= */}
+        <div className="c-space relative z-10 w-full max-w-[1440px] mx-auto flex items-start justify-between gap-6 pointer-events-none">
+          {/* Left-Aligned Asymmetric Editorial Block (recedes smoothly on scroll dive) */}
+          <motion.div
+            style={{ opacity: headerOpacity, y: headerY }}
+            className="max-w-xl pointer-events-auto"
+          >
+            {/* Crisp Monospace Index — Zero AI Pulsing Pill */}
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+              className="flex items-center gap-2.5 text-[11px] font-mono uppercase tracking-[0.18em] text-emerald-400/85 mb-2.5"
+            >
+              <span>/ PORTFOLIO</span>
+              <span className="text-emerald-400/35">·</span>
+              <span className="text-emerald-100/50">KUALA LUMPUR (UTC+8)</span>
+            </motion.div>
+
+            {/* Oversized Solid High-Contrast Display Name — Zero Gradient Cliché */}
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.08 }}
+              className={`font-bold tracking-[-0.035em] leading-[1.02] text-[#f0fdf4] text-4xl sm:text-6xl lg:text-[4.25rem] ${spaceGrotesk.className}`}
+            >
+              Chairiel Azizi
+            </motion.h1>
+
+            {/* Preserved 5-Role TypeAnimation framed as a clean architectural telemetry strip */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.16 }}
+              className="mt-3 sm:mt-4 inline-flex items-center gap-2 border-l-2 border-emerald-400 pl-3 py-1 bg-gradient-to-r from-emerald-500/[0.12] via-emerald-500/[0.03] to-transparent"
+            >
+              <span className="hidden sm:inline font-mono text-[11px] uppercase tracking-[0.14em] text-emerald-400/60">
+                ROLE //
               </span>
-            );
-          })}
+              <TypeAnimation
+                sequence={[
+                  "Aspiring DevOps Engineer",
+                  2000,
+                  "Software Engineer",
+                  2000,
+                  "Aspiring Cloud Engineer",
+                  2000,
+                  "Full Stack Developer",
+                  2000,
+                  "Java & Spring Boot Dev",
+                  2000,
+                ]}
+                speed={150}
+                className="font-mono text-sm sm:text-lg font-medium text-emerald-300"
+                wrapper="span"
+                repeat={Infinity}
+              />
+            </motion.div>
+
+            {/* Concise Editorial Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.24 }}
+              className="mt-2.5 sm:mt-3 text-emerald-100/65 text-xs sm:text-sm lg:text-[15px] max-w-md leading-relaxed font-normal"
+            >
+              Packaged App Developer building GxP-regulated enterprise platforms
+              · Self-hosted homelab architect running 40+ Docker services.
+            </motion.p>
+          </motion.div>
+
+          {/* Right-Aligned Live Engineering Telemetry (stays live throughout the scroll dive) */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+            style={{ opacity: bottomBarOpacity }}
+            className="hidden md:flex flex-col items-end text-right font-mono text-[11px] tracking-wider text-emerald-100/45 pt-1"
+          >
+            <span>03°08&apos;20&quot;N · 101°41&apos;13&quot;E</span>
+            <span
+              ref={telemetryRef}
+              className="mt-1 text-emerald-400/80 tabular-nums"
+            >
+              CAM [0.0, 0.0, 11.5]
+            </span>
+            <div className="mt-2.5 flex items-center gap-2.5">
+              <span
+                ref={scrollPctRef}
+                className="text-[10px] text-emerald-100/50 tabular-nums"
+              >
+                SCROLL 00%
+              </span>
+              <div className="w-16 h-[2px] bg-emerald-400/15 overflow-hidden">
+                <div
+                  ref={scrollBarRef}
+                  className="w-full h-full bg-emerald-400 origin-left"
+                  style={{ transform: "scaleX(0.04)" }}
+                />
+              </div>
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
+
+        {/* ================= ACT 2: MID-SCROLL ARCHITECTURAL SPEC OVERLAY ================= */}
+        {/* Framed top-left & bottom-right so the zoomed 3D console stays 100% unobstructed */}
+        <motion.div
+          style={{ opacity: midHudOpacity }}
+          className="c-space pointer-events-none absolute inset-x-0 top-24 sm:top-28 bottom-28 sm:bottom-24 z-10 w-full max-w-[1440px] mx-auto flex flex-col justify-between"
+        >
+          {/* Top-Left Pillar — Enterprise GxP */}
+          <motion.div
+            style={{ x: midHudLeftX }}
+            className="w-full sm:w-[320px] p-3.5 sm:p-4 rounded-sm border border-emerald-400/25 bg-[#050d09]/80 backdrop-blur-md self-start"
+          >
+            <div className="flex items-center justify-between font-mono text-[10px] tracking-[0.16em] text-emerald-400 uppercase mb-1.5">
+              <span>01 / Enterprise</span>
+              <span className="text-emerald-400/45">GxP</span>
+            </div>
+            <h2
+              className={`text-sm sm:text-base font-semibold text-[#f0fdf4] tracking-tight ${spaceGrotesk.className}`}
+            >
+              Regulated Mission-Critical Apps
+            </h2>
+            <p className="mt-1 text-[11px] sm:text-xs font-mono text-emerald-100/60 leading-relaxed">
+              Java 17 · Spring Boot 3 · Oracle PL/SQL · GitLab CI/CD
+            </p>
+          </motion.div>
+
+          {/* Bottom-Right Pillar — Self-Hosted Homelab */}
+          <motion.div
+            style={{ x: midHudRightX }}
+            className="w-full sm:w-[320px] p-3.5 sm:p-4 rounded-sm border border-cyan-400/25 bg-[#050d09]/80 backdrop-blur-md self-end sm:text-right"
+          >
+            <div className="flex sm:flex-row-reverse items-center justify-between font-mono text-[10px] tracking-[0.16em] text-cyan-300 uppercase mb-1.5">
+              <span>02 / Homelab Infra</span>
+              <span className="text-cyan-300/45">40+ SVC</span>
+            </div>
+            <h2
+              className={`text-sm sm:text-base font-semibold text-[#f0fdf4] tracking-tight ${spaceGrotesk.className}`}
+            >
+              Self-Hosted Cloud Architecture
+            </h2>
+            <p className="mt-1 text-[11px] sm:text-xs font-mono text-emerald-100/60 leading-relaxed">
+              Docker · Kubernetes · Terraform · AWS · Zero-Trust
+            </p>
+          </motion.div>
+        </motion.div>
+
+        {/* ================= BOTTOM BAR: TACTILE KEYCAPS & SHARP CTAS ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.3 }}
+          style={{ opacity: bottomBarOpacity, y: bottomBarY }}
+          className="c-space relative z-10 w-full max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4"
+        >
+          {/* Left: Tactile [1]-[5] Keycap Camera Switcher (designspells.com craft) */}
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 font-mono text-xs">
+            {cameraPresets.map((preset) => {
+              const isActive = activeCamera === preset.id;
+              const isDepressed = pressedKey === preset.keyNum;
+              return (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => triggerCameraSelect(preset.id, preset.keyNum)}
+                  className={`relative px-2 sm:px-2.5 py-1.5 rounded-sm border flex items-center gap-1.5 cursor-pointer transition-all duration-150 select-none ${
+                    isActive
+                      ? "border-emerald-400/55 text-emerald-300 shadow-[0_2px_0_rgba(16,185,129,0.4)]"
+                      : "border-white/15 bg-[#050d09]/75 text-emerald-100/60 hover:text-[#f0fdf4] hover:border-emerald-400/30 shadow-[0_2px_0_rgba(255,255,255,0.1)]"
+                  } ${
+                    isDepressed
+                      ? "translate-y-[2px] scale-[0.97] shadow-none"
+                      : "active:translate-y-[2px] active:scale-[0.97] active:shadow-none"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeCamKey"
+                      transition={{
+                        type: "spring",
+                        stiffness: 420,
+                        damping: 32,
+                      }}
+                      className="absolute inset-0 bg-emerald-500/15 rounded-sm -z-10"
+                    />
+                  )}
+                  <span
+                    className={`px-1 py-0.5 text-[10px] leading-none rounded-[2px] ${
+                      isActive
+                        ? "bg-emerald-400/20 text-emerald-200"
+                        : "bg-white/10 text-emerald-100/50"
+                    }`}
+                  >
+                    {preset.keyNum}
+                  </span>
+                  <span className="text-[11px] sm:text-xs">{preset.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Center: Minimal Scroll-to-Dive Indicator (Desktop, fades out once scrolling starts) */}
+          <motion.div
+            style={{ opacity: scrollCueOpacity }}
+            className="hidden lg:flex flex-col items-center gap-1.5 pointer-events-none"
+          >
+            <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-emerald-100/40">
+              Scroll to dive
+            </span>
+            <div className="w-px h-5 bg-gradient-to-b from-emerald-400/70 to-transparent animate-pulse" />
+          </motion.div>
+
+          {/* Right: Sharp High-Contrast Editorial CTAs */}
+          <div className="flex items-center gap-2.5 w-full sm:w-auto justify-center sm:justify-end">
+            <Link
+              to="work"
+              smooth={true}
+              spy={true}
+              className="cursor-pointer group flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-sm bg-[#f0fdf4] hover:bg-emerald-300 text-[#050d09] font-semibold text-xs tracking-tight transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+            >
+              <span>Work Experience</span>
+              <HiArrowDown className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-y-0.5" />
+            </Link>
+
+            <Link
+              to="projects"
+              smooth={true}
+              spy={true}
+              className="cursor-pointer group flex-1 sm:flex-none flex items-center justify-center gap-2 px-4 sm:px-5 py-2.5 rounded-sm bg-[#050d09]/75 hover:bg-emerald-500/10 text-[#f0fdf4] font-medium text-xs tracking-tight border border-emerald-400/30 hover:border-emerald-400/65 backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98]"
+            >
+              <span>Projects &amp; Homelab</span>
+              <HiArrowRight className="w-3.5 h-3.5 text-emerald-400 transition-transform duration-200 group-hover:translate-x-0.5" />
+            </Link>
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 };
