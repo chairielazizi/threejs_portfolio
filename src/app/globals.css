@@ -81,9 +81,14 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--em-main);
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 0.75rem;
+}
+@media (min-width: 768px) {
+  .sec-tag {
+    font-size: 0.9375rem;
+  }
 }
 
 /* Skill tag */

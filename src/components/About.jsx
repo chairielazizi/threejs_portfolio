@@ -11,6 +11,7 @@ import Image from "next/image";
 import TechRadar from "./TechRadar";
 import { HiSignal, HiServerStack } from "react-icons/hi2";
 import { IoInfiniteOutline } from "react-icons/io5";
+import { spaceGrotesk } from "@/app/fonts";
 import { useViewportVisibility } from "@/utils/deviceTier";
 
 const TERMINAL_LOGS = [
@@ -80,8 +81,12 @@ const About = () => {
   return (
     <section id="about" ref={sectionRef} className="my-20 c-space">
       <div className="sec-divider mb-8" />
-      <p className="sec-tag">/ About</p>
-      <h2 className="head-text mb-8">About Me</h2>
+      <p className="sec-tag font-mono">/ About</p>
+      <h2
+        className={`text-3xl sm:text-5xl font-bold tracking-[-0.03em] text-[#f0fdf4] mb-8 ${spaceGrotesk.className}`}
+      >
+        About Me
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
         {/* about me */}
         <div className="col-span-1 md:col-span-2 xl:col-span-2">

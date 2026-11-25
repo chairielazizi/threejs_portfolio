@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Suspense, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { SiNginx, SiCloudflare, SiTailscale } from "react-icons/si";
 import { Canvas } from "@react-three/fiber";
 import { Center, OrbitControls } from "@react-three/drei";
 import CanvasLoader from "@/3d-models/CanvasLoader";
@@ -11,7 +12,14 @@ import Computer from "@/3d-models/Computer";
 import { GitHubLight } from "developer-icons";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
+import { spaceGrotesk } from "@/app/fonts";
 import { useViewportVisibility } from "@/utils/deviceTier";
+
+const TECH_ICON_MAP = {
+  nginx: SiNginx,
+  cloudflare: SiCloudflare,
+  tailscale: SiTailscale,
+};
 
 const Projects = () => {
   const {
@@ -37,8 +45,12 @@ const Projects = () => {
   return (
     <section id="projects" ref={sectionRef} className="c-space my-20">
       <div className="sec-divider mb-8" />
-      <p className="sec-tag">/ Projects</p>
-      <p className="head-text text-3xl font-semibold">My Projects</p>
+      <p className="sec-tag font-mono">/ Projects</p>
+      <h2
+        className={`text-3xl sm:text-5xl font-bold tracking-[-0.03em] text-[#f0fdf4] ${spaceGrotesk.className}`}
+      >
+        My Projects
+      </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mt-10">
         <div
@@ -88,11 +100,34 @@ const Projects = () => {
           <div className="mt-auto flex flex-col gap-5">
             <div className="flex flex-col sm:flex-row gap-5 items-start sm:items-center justify-between">
               <div className="flex items-center gap-2">
-                {currentProject.tags.map((tech, index) => (
-                  <div key={index} className="tech-logo bg-black/30 border border-white/10 rounded-lg p-1.5 backdrop-blur-md">
-                    <Image src={tech.path} alt={tech.name} width={32} height={32} className="w-auto h-auto" />
-                  </div>
-                ))}
+                {currentProject.tags.map((tech, index) => {
+                  const VectorIcon = tech.iconKey
+                    ? TECH_ICON_MAP[tech.iconKey]
+                    : null;
+                  return (
+                    <div
+                      key={index}
+                      title={tech.name}
+                      className="tech-logo bg-black/30 border border-white/10 rounded-lg p-1.5 backdrop-blur-md"
+                    >
+                      {VectorIcon ? (
+                        <VectorIcon
+                          className="w-6 h-6"
+                          style={{ color: tech.color || "#34d399" }}
+                          aria-label={tech.name}
+                        />
+                      ) : (
+                        <Image
+                          src={tech.path}
+                          alt={tech.name}
+                          width={32}
+                          height={32}
+                          className="w-auto h-auto"
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
               
               <div className="flex items-center gap-4">

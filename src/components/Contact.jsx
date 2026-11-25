@@ -2,6 +2,7 @@
 import { useRef, useEffect, useState } from "react";
 import { MdArrowOutward } from "react-icons/md";
 import emailjs from "@emailjs/browser";
+import { spaceGrotesk } from "@/app/fonts";
 
 const CONTACTS = [
   {
@@ -101,9 +102,11 @@ const Contact = () => {
 
       {/* Header */}
       <div className="reveal text-center mb-14">
-        <p className="sec-tag">/ My Contact</p>
-        <h2 className="head-text text-3xl font-semibold">
-          Hit Me <span className="gradient-text">Up</span>
+        <p className="sec-tag font-mono">/ My Contact</p>
+        <h2
+          className={`text-3xl sm:text-5xl font-bold tracking-[-0.03em] text-[#f0fdf4] ${spaceGrotesk.className}`}
+        >
+          Hit Me Up
         </h2>
         <p style={{ color: "var(--tx-secondary)", fontSize: "1.05rem", marginTop: "0.75rem" }}>
           Do you have a project or any enquiry in mind? Let&apos;s talk!

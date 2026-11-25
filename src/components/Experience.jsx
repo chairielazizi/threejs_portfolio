@@ -8,6 +8,7 @@ import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
 import { useMediaQuery } from "react-responsive";
+import { spaceGrotesk } from "@/app/fonts";
 import { useViewportVisibility } from "@/utils/deviceTier";
 
 const Experience = () => {
@@ -33,8 +34,12 @@ const Experience = () => {
     <section id="work" ref={sectionRef} className="c-space my-20">
       <div className="w-full to-white-600">
         <div className="sec-divider mb-8" />
-        <p className="sec-tag">/ Experience</p>
-        <h3 className="head-text text-3xl font-semibold">My Work Experience</h3>
+        <p className="sec-tag font-mono">/ Experience</p>
+        <h2
+          className={`text-3xl sm:text-5xl font-bold tracking-[-0.03em] text-[#f0fdf4] ${spaceGrotesk.className}`}
+        >
+          My Work Experience
+        </h2>
 
         <div className="work-container items-start">
           {/* model grid */}

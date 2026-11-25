@@ -314,7 +314,7 @@ const Main = () => {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
-              className="flex items-center gap-2.5 text-[11px] font-mono uppercase tracking-[0.18em] text-emerald-400/85 mb-2.5"
+              className="flex items-center gap-2.5 text-xs md:text-[15px] font-mono uppercase tracking-[0.16em] text-emerald-400/85 mb-2.5"
             >
               <span>/ PORTFOLIO</span>
               <span className="text-emerald-400/35">·</span>
