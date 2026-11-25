@@ -11,8 +11,14 @@ import Computer from "@/3d-models/Computer";
 import { GitHubLight } from "developer-icons";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
+import { useViewportVisibility } from "@/utils/deviceTier";
 
 const Projects = () => {
+  const {
+    ref: sectionRef,
+    hasEntered: isNearProjects,
+    isVisible: isProjectsVisible,
+  } = useViewportVisibility("350px 0px");
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const currentProject = myProjects[currentProjectIndex];
 
@@ -29,7 +35,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="c-space my-20">
+    <section id="projects" ref={sectionRef} className="c-space my-20">
       <div className="sec-divider mb-8" />
       <p className="sec-tag">/ Projects</p>
       <p className="head-text text-3xl font-semibold">My Projects</p>
@@ -141,22 +147,29 @@ const Projects = () => {
           onMouseLeave={e => { e.currentTarget.style.borderColor = "var(--bd-soft)"; e.currentTarget.style.boxShadow = "none"; }}
         >
           <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
-            <Canvas
-              dpr={[1, 1.5]}
-              gl={{ powerPreference: "high-performance", antialias: false }}
-            >
-              <ambientLight intensity={Math.PI} />
-              <directionalLight position={[10, 10, 5]} />
+            {isNearProjects && (
+              <Canvas
+                frameloop={isProjectsVisible ? "always" : "never"}
+                dpr={[1.25, 1.5]}
+                gl={{
+                  powerPreference: "high-performance",
+                  antialias: true,
+                  stencil: false,
+                }}
+              >
+                <ambientLight intensity={Math.PI} />
+                <directionalLight position={[10, 10, 5]} />
 
-              <Center>
-                <Suspense fallback={<CanvasLoader />}>
-                  <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
-                    <Computer texture={currentProject.texture} />
-                  </group>
-                </Suspense>
-              </Center>
-              <OrbitControls maxPolarAngle={Math.PI / 2} />
-            </Canvas>
+                <Center>
+                  <Suspense fallback={<CanvasLoader />}>
+                    <group scale={2} position={[0, -3, 0]} rotation={[0, -0.1, 0]}>
+                      <Computer texture={currentProject.texture} />
+                    </group>
+                  </Suspense>
+                </Center>
+                <OrbitControls maxPolarAngle={Math.PI / 2} />
+              </Canvas>
+            )}
           </ErrorBoundary>
         </div>
       </div>

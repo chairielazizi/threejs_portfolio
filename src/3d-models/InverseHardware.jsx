@@ -101,6 +101,3 @@ export const ArduinoUno = (props) => (
     {...props}
   />
 );
-
-useGLTF.preload("/models/circuit_board.glb");
-useGLTF.preload("/models/arduino_uno.glb");

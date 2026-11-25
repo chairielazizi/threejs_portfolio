@@ -1,7 +1,14 @@
 "use client";
-import React, { useState, useEffect, Suspense, useMemo, useRef } from "react";
-import { PerspectiveCamera, PerformanceMonitor } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import React, {
+  useState,
+  useEffect,
+  Suspense,
+  useMemo,
+  useRef,
+  lazy,
+} from "react";
+import { PerspectiveCamera } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
 import { ErrorBoundary } from "react-error-boundary";
 import { useMediaQuery } from "react-responsive";
 import {
@@ -14,49 +21,14 @@ import {
 import { TypeAnimation } from "react-type-animation";
 import { Link } from "react-scroll";
 import { HiArrowDown, HiArrowRight } from "react-icons/hi2";
-import { easing } from "maath";
 import { spaceGrotesk } from "@/app/fonts";
 import CanvasLoader from "@/3d-models/CanvasLoader";
 import ComputerSciFi from "@/3d-models/ComputerSciFi";
-import ComputerCard from "@/3d-models/ComputerCard";
-import { CircuitBoard, ArduinoUno } from "@/3d-models/InverseHardware";
-import Drone from "@/3d-models/Drone";
 import MainCamera from "@/3d-models/MainCamera";
+import { detectDeviceTier } from "@/utils/deviceTier";
 
-function clamp01(v) {
-  return Math.max(0, Math.min(1, v));
-}
-
-function smoothstep(edge0, edge1, x) {
-  const t = clamp01((x - edge0) / (edge1 - edge0));
-  return t * t * (3 - 2 * t);
-}
-
-/**
- * Wraps each flanking 3D hardware piece so it sweeps smoothly outward & past
- * the camera lens as the user scrolls into the central Sci-Fi console.
- */
-const ParallaxHardware = ({
-  children,
-  scrollProgressRef,
-  flyOffset = [0, 0, 0],
-}) => {
-  const ref = useRef();
-
-  useFrame((_, delta) => {
-    if (!ref.current) return;
-    const p = scrollProgressRef ? scrollProgressRef.current : 0;
-    const fly = smoothstep(0.05, 0.72, p);
-    easing.damp3(
-      ref.current.position,
-      [flyOffset[0] * fly, flyOffset[1] * fly, flyOffset[2] * fly],
-      0.24,
-      delta
-    );
-  });
-
-  return <group ref={ref}>{children}</group>;
-};
+// Dynamically split the 4 flanking hardware models so Lite 3D devices never download them
+const HeroCompanionRig = lazy(() => import("@/3d-models/HeroCompanionRig"));
 
 const Main = () => {
   const sectionRef = useRef(null);
@@ -66,23 +38,23 @@ const Main = () => {
   const scrollBarRef = useRef(null);
 
   const [hasMounted, setHasMounted] = useState(false);
+  const [tierChecked, setTierChecked] = useState(false);
+  const [detectedLite, setDetectedLite] = useState(false);
+  const [rigOverride, setRigOverride] = useState(null); // null | "lite" | "full"
   const [activeCamera, setActiveCamera] = useState("desk");
   const [pressedKey, setPressedKey] = useState(null);
   const [isHeroInView, setIsHeroInView] = useState(true);
-  const [dpr, setDpr] = useState(1.25);
 
   const isMobileQuery = useMediaQuery({ maxWidth: 768 });
   const isMobile = hasMounted && isMobileQuery;
+  const isLiteMode = rigOverride ? rigOverride === "lite" : detectedLite;
 
   useEffect(() => {
     setHasMounted(true);
+    const result = detectDeviceTier();
+    setDetectedLite(result.isLite);
+    setTierChecked(true);
   }, []);
-
-  // Cap DPR to 1 on mobile (55% fewer GPU pixels) and 1.5 on desktop
-  useEffect(() => {
-    if (!hasMounted) return;
-    setDpr(isMobileQuery ? 1 : 1.5);
-  }, [hasMounted, isMobileQuery]);
 
   // Pause WebGL rendering completely (0% GPU) when user scrolls past the Hero section
   useEffect(() => {
@@ -140,9 +112,9 @@ const Main = () => {
   const bottomBarOpacity = useTransform(smoothProgress, [0.8, 0.96], [1, 0]);
   const bottomBarY = useTransform(smoothProgress, [0.8, 0.96], [0, 18]);
 
-  // Camera presets calibrated to the asymmetric editorial staging
-  const cameraPresets = useMemo(
-    () => [
+  // Camera presets adapt cleanly to Lite 3D (Console-only) vs Full 5-model Rig
+  const cameraPresets = useMemo(() => {
+    const core = [
       {
         id: "desk",
         keyNum: "1",
@@ -155,6 +127,10 @@ const Main = () => {
         label: "Console",
         pos: isMobile ? [0, 0.05, 6.8] : [1.05, -0.35, 5.9],
       },
+    ];
+    if (isLiteMode) return core;
+    return [
+      ...core,
       {
         id: "drone",
         keyNum: "3",
@@ -173,9 +149,8 @@ const Main = () => {
         label: "Arduino",
         pos: isMobile ? [2.15, -1.6, 3.8] : [6.15, -1.9, 3.85],
       },
-    ],
-    [isMobile]
-  );
+    ];
+  }, [isMobile, isLiteMode]);
 
   const divePos = useMemo(
     () => (isMobile ? [0, -0.05, 8.2] : [0, -0.3, 6.1]),
@@ -186,7 +161,6 @@ const Main = () => {
   const triggerCameraSelect = (id, keyNum) => {
     setActiveCamera(id);
     setPressedKey(keyNum);
-    // If user is mid-scroll dive and picks a hardware camera, gently return to top so target is in frame
     if (scrollProgressRef.current > 0.15) {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -195,7 +169,7 @@ const Main = () => {
     }, 150);
   };
 
-  // Keyboard shortcuts [1]-[5] with tactile keycap depression feedback
+  // Keyboard shortcuts [1]-[5] (restricted to [1]-[2] in Lite mode)
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (
@@ -208,13 +182,23 @@ const Main = () => {
         return;
       if (e.key === "1") triggerCameraSelect("desk", "1");
       if (e.key === "2") triggerCameraSelect("screens", "2");
-      if (e.key === "3") triggerCameraSelect("drone", "3");
-      if (e.key === "4") triggerCameraSelect("cpu", "4");
-      if (e.key === "5") triggerCameraSelect("arduino", "5");
+      if (!isLiteMode) {
+        if (e.key === "3") triggerCameraSelect("drone", "3");
+        if (e.key === "4") triggerCameraSelect("cpu", "4");
+        if (e.key === "5") triggerCameraSelect("arduino", "5");
+      }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [isLiteMode]);
+
+  const toggleRigMode = () => {
+    const next = isLiteMode ? "full" : "lite";
+    setRigOverride(next);
+    if (next === "lite" && activeCamera !== "desk" && activeCamera !== "screens") {
+      setActiveCamera("desk");
+    }
+  };
 
   const activePreset =
     cameraPresets.find((p) => p.id === activeCamera) || cameraPresets[0];
@@ -227,7 +211,7 @@ const Main = () => {
     >
       {/* Sticky Full-Viewport Interactive Stage */}
       <div className="sticky top-0 w-full h-[100dvh] overflow-hidden flex flex-col justify-between pt-20 sm:pt-28 pb-5 sm:pb-7">
-        {/* Subtle Architectural Blueprint Grid (Refero surface restraint) */}
+        {/* Subtle Architectural Blueprint Grid */}
         <div
           aria-hidden="true"
           className="absolute inset-0 pointer-events-none"
@@ -260,24 +244,20 @@ const Main = () => {
             <Canvas
               className="w-full h-full"
               frameloop={isHeroInView ? "always" : "never"}
-              dpr={dpr}
-              performance={{ min: 0.5 }}
+              dpr={[1.25, 1.5]}
               gl={{
                 powerPreference: "high-performance",
-                antialias: !isMobile,
+                antialias: true,
                 stencil: false,
               }}
             >
-              <PerformanceMonitor
-                onDecline={() => setDpr(isMobile ? 0.75 : 1)}
-                onIncline={() => setDpr(isMobile ? 1 : 1.5)}
+              <PerspectiveCamera
+                makeDefault
+                position={isMobile ? [0, 0, 14] : [0, 0, 11.5]}
               />
-              <Suspense fallback={<CanvasLoader />}>
-                <PerspectiveCamera
-                  makeDefault
-                  position={isMobile ? [0, 0, 14] : [0, 0, 11.5]}
-                />
 
+              {/* Primary Hero Rig: loads first (0.53 MB, 1 draw call, razor-sharp on all devices) */}
+              <Suspense fallback={<CanvasLoader />}>
                 <MainCamera
                   cameraPos={activePreset.pos}
                   divePos={divePos}
@@ -288,74 +268,36 @@ const Main = () => {
                   <ComputerSciFi
                     position={[0, isMobile ? -0.15 : -0.65, 0]}
                     rotation={[0.16, 0, 0]}
-                    scale={isMobile ? 0.24 : 0.45}
+                    scale={isMobile ? (isLiteMode ? 0.27 : 0.24) : 0.45}
                   />
                 </MainCamera>
-
-                {/* Cyber Drone — positioned cleanly clear of left editorial headline */}
-                <ParallaxHardware
-                  scrollProgressRef={scrollProgressRef}
-                  flyOffset={isMobile ? [-2.6, 1.4, 4.2] : [-4.2, 0.8, 4.8]}
-                >
-                  <Drone
-                    position={isMobile ? [-2.2, 0.85, 0.5] : [-5.15, -0.45, 0.8]}
-                    rotation={[0, Math.PI * 0.85, 0]}
-                    scale={isMobile ? 0.14 : 0.32}
-                  />
-                </ParallaxHardware>
-
-                {/* Circuit Board below the Drone (inverse mouse tracking) */}
-                <ParallaxHardware
-                  scrollProgressRef={scrollProgressRef}
-                  flyOffset={isMobile ? [-2.6, -1.8, 4.2] : [-4.0, -2.1, 4.6]}
-                >
-                  <CircuitBoard
-                    position={isMobile ? [-2.15, -1.6, 0.6] : [-4.85, -2.25, 0.7]}
-                    rotation={[0, 0.28, 0]}
-                    scale={isMobile ? 1.7 : 3.4}
-                  />
-                </ParallaxHardware>
-
-                {/* Floating Sci-Fi Computer Card on upper-right */}
-                <ParallaxHardware
-                  scrollProgressRef={scrollProgressRef}
-                  flyOffset={isMobile ? [2.6, 1.6, 4.2] : [4.2, 1.8, 4.8]}
-                >
-                  <ComputerCard
-                    position={isMobile ? [2.25, 1.05, 0.5] : [5.85, 1.65, 0.5]}
-                    rotation={[0.08, -0.35, 0.04]}
-                    scale={isMobile ? 0.026 : 0.05}
-                  />
-                </ParallaxHardware>
-
-                {/* Arduino Uno below the Computer Card (inverse mouse tracking) */}
-                <ParallaxHardware
-                  scrollProgressRef={scrollProgressRef}
-                  flyOffset={isMobile ? [2.6, -1.8, 4.2] : [4.2, -2.0, 4.6]}
-                >
-                  <ArduinoUno
-                    position={isMobile ? [2.15, -1.6, 0.6] : [6.15, -1.9, 0.6]}
-                    rotation={[0, -0.28, 0.18]}
-                    scale={isMobile ? 10 : 19}
-                  />
-                </ParallaxHardware>
-
-                {/* Optimized 4-Light Rig: hemisphere + 2 directional + 1 accent pointLight */}
-                <hemisphereLight args={["#d1fae5", "#04120c", 1.35]} />
-                <ambientLight intensity={0.75} />
-                <directionalLight position={[6, 10, 10]} intensity={1.55} />
-                <directionalLight
-                  position={[-8, 4, 6]}
-                  intensity={0.95}
-                  color="#22d3ee"
-                />
-                <pointLight
-                  position={[0.6, 1.0, 4.5]}
-                  color="#10b981"
-                  intensity={2.0}
-                  distance={18}
-                />
               </Suspense>
+
+              {/* Companion Rig (Drone, Card, CPU, Arduino): dynamically skipped in Lite 3D mode */}
+              {tierChecked && !isLiteMode && (
+                <Suspense fallback={null}>
+                  <HeroCompanionRig
+                    isMobile={isMobile}
+                    scrollProgressRef={scrollProgressRef}
+                  />
+                </Suspense>
+              )}
+
+              {/* Optimized 4-Light Rig */}
+              <hemisphereLight args={["#d1fae5", "#04120c", 1.35]} />
+              <ambientLight intensity={0.75} />
+              <directionalLight position={[6, 10, 10]} intensity={1.55} />
+              <directionalLight
+                position={[-8, 4, 6]}
+                intensity={0.95}
+                color="#22d3ee"
+              />
+              <pointLight
+                position={[0.6, 1.0, 4.5]}
+                color="#10b981"
+                intensity={2.0}
+                distance={18}
+              />
             </Canvas>
           </ErrorBoundary>
         </div>
@@ -367,7 +309,7 @@ const Main = () => {
             style={{ opacity: headerOpacity, y: headerY }}
             className="max-w-xl pointer-events-auto"
           >
-            {/* Crisp Monospace Index — Zero AI Pulsing Pill */}
+            {/* Crisp Monospace Index */}
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -379,7 +321,7 @@ const Main = () => {
               <span className="text-emerald-100/50">KUALA LUMPUR (UTC+8)</span>
             </motion.div>
 
-            {/* Oversized Solid High-Contrast Display Name — Zero Gradient Cliché */}
+            {/* Oversized Solid High-Contrast Display Name */}
             <motion.h1
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -465,7 +407,6 @@ const Main = () => {
         </div>
 
         {/* ================= ACT 2: MID-SCROLL ARCHITECTURAL SPEC OVERLAY ================= */}
-        {/* Framed top-left & bottom-right so the zoomed 3D console stays 100% unobstructed */}
         <motion.div
           style={{ opacity: midHudOpacity }}
           className="c-space pointer-events-none absolute inset-x-0 top-24 sm:top-28 bottom-28 sm:bottom-24 z-10 w-full max-w-[1440px] mx-auto flex flex-col justify-between"
@@ -517,7 +458,7 @@ const Main = () => {
           style={{ opacity: bottomBarOpacity, y: bottomBarY }}
           className="c-space relative z-10 w-full max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4"
         >
-          {/* Left: Tactile [1]-[5] Keycap Camera Switcher (designspells.com craft) */}
+          {/* Left: Tactile Keycap Camera Switcher + Lite/Full Rig Toggle on Low-End GPUs */}
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 font-mono text-xs">
             {cameraPresets.map((preset) => {
               const isActive = activeCamera === preset.id;
@@ -561,9 +502,25 @@ const Main = () => {
                 </button>
               );
             })}
+
+            {/* Optional toggle shown on Lite-detected devices so users can opt into Full 3D anytime */}
+            {tierChecked && detectedLite && (
+              <button
+                type="button"
+                onClick={toggleRigMode}
+                title={
+                  isLiteMode
+                    ? "Load full 5-model 3D rig"
+                    : "Switch back to fast Lite 3D mode"
+                }
+                className="px-2.5 py-1.5 rounded-sm border border-cyan-400/30 bg-[#050d09]/75 text-cyan-300/85 hover:text-cyan-200 hover:border-cyan-400/60 text-[11px] cursor-pointer transition-colors"
+              >
+                {isLiteMode ? "+ Full 3D" : "Lite 3D"}
+              </button>
+            )}
           </div>
 
-          {/* Center: Minimal Scroll-to-Dive Indicator (Desktop, fades out once scrolling starts) */}
+          {/* Center: Minimal Scroll-to-Dive Indicator */}
           <motion.div
             style={{ opacity: scrollCueOpacity }}
             className="hidden lg:flex flex-col items-center gap-1.5 pointer-events-none"

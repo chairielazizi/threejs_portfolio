@@ -11,6 +11,7 @@ import Image from "next/image";
 import TechRadar from "./TechRadar";
 import { HiSignal, HiServerStack } from "react-icons/hi2";
 import { IoInfiniteOutline } from "react-icons/io5";
+import { useViewportVisibility } from "@/utils/deviceTier";
 
 const TERMINAL_LOGS = [
   { type: "cmd", text: "git push origin main" },
@@ -27,40 +28,45 @@ const TERMINAL_LOGS = [
   { type: "cloud", text: "Cloud & Homelab Infra: All systems optimal" },
 ];
 
+const Globe = dynamic(
+  () => import("react-globe.gl").then((mod) => mod.default),
+  {
+    ssr: false,
+  }
+);
+
 const About = () => {
-  const [isMounted, setIsMounted] = useState(false);
+  const {
+    ref: sectionRef,
+    hasEntered: isNearAbout,
+    isVisible: isAboutVisible,
+  } = useViewportVisibility("350px 0px");
   const [places, setPlaces] = useState([]);
   const [hasCopied, setHasCopied] = useState(false);
   const globeRef = useRef(null);
 
-  const Globe = dynamic(
-    () => import("react-globe.gl").then((mod) => mod.default),
-    {
-      ssr: false,
-    }
-  );
-
+  // Lazy-fetch GeoJSON only once user scrolls near the About section
   useEffect(() => {
-    setIsMounted(true);
+    if (!isNearAbout || places.length > 0) return;
     fetch("/datasets/ne_110m_populated_places_simple.geojson")
       .then((res) => res.json())
       .then(({ features }) => setPlaces(features));
-  }, []);
+  }, [isNearAbout, places.length]);
 
-  // Configure smooth, lightweight slow auto-rotation on the globe
+  // Auto-rotate globe only while About section is visible in viewport
   useEffect(() => {
-    if (!isMounted) return;
+    if (!isNearAbout) return;
     const timer = setTimeout(() => {
       if (globeRef.current) {
         const controls = globeRef.current.controls();
         if (controls) {
-          controls.autoRotate = true;
-          controls.autoRotateSpeed = 1.5; // gentle, slow drift
+          controls.autoRotate = isAboutVisible;
+          controls.autoRotateSpeed = 1.5;
         }
       }
     }, 600);
     return () => clearTimeout(timer);
-  }, [isMounted]);
+  }, [isNearAbout, isAboutVisible]);
 
   const handleCopy = () => {
     if (navigator?.clipboard) {
@@ -72,7 +78,7 @@ const About = () => {
   };
 
   return (
-    <section id="about" className="my-20 c-space">
+    <section id="about" ref={sectionRef} className="my-20 c-space">
       <div className="sec-divider mb-8" />
       <p className="sec-tag">/ About</p>
       <h2 className="head-text mb-8">About Me</h2>
@@ -109,8 +115,8 @@ const About = () => {
         {/* location / globe */}
         <div className="col-span-1 md:col-span-1 xl:col-span-1">
           <div className="grid-container items-center justify-between">
-            <div className="w-full h-fit flex justify-center items-center sm:h-[300px]">
-              {isMounted && (
+            <div className="w-full h-[300px] flex justify-center items-center">
+              {isNearAbout && (
                 <Globe
                   ref={globeRef}
                   height={300}

@@ -8,8 +8,14 @@ import { Suspense, useState, useEffect } from "react";
 import Image from "next/image";
 import { ErrorBoundary } from "react-error-boundary";
 import { useMediaQuery } from "react-responsive";
+import { useViewportVisibility } from "@/utils/deviceTier";
 
 const Experience = () => {
+  const {
+    ref: sectionRef,
+    hasEntered: isNearWork,
+    isVisible: isWorkVisible,
+  } = useViewportVisibility("350px 0px");
   const [animationName, setAnimationName] = useState("salute");
   const [mounted, setMounted] = useState(false);
 
@@ -24,7 +30,7 @@ const Experience = () => {
   const avatarPositionY = !mounted ? -2.75 : isMobile ? -2.4 : isTablet ? -2.6 : -2.75;
 
   return (
-    <section id="work" className="c-space my-20">
+    <section id="work" ref={sectionRef} className="c-space my-20">
       <div className="w-full to-white-600">
         <div className="sec-divider mb-8" />
         <p className="sec-tag">/ Experience</p>
@@ -34,22 +40,29 @@ const Experience = () => {
           {/* model grid */}
           <div className="work-canvas h-[210px] sm:h-[260px] lg:h-[560px] lg:sticky lg:top-24">
             <ErrorBoundary fallback={<div className="text-white flex items-center justify-center h-full">Failed to load 3D scene.</div>}>
-              <Canvas
-                dpr={[1, 1.5]}
-                gl={{ powerPreference: "high-performance", antialias: false }}
-              >
-                <ambientLight intensity={7} />
-                <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
-                <directionalLight position={[10, 10, 10]} intensity={1.5} />
-                <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
-                <Suspense fallback={<CanvasLoader />}>
-                  <Avatar
-                    position-y={avatarPositionY}
-                    scale={avatarScale}
-                    animationName={animationName}
-                  />
-                </Suspense>
-              </Canvas>
+              {isNearWork && (
+                <Canvas
+                  frameloop={isWorkVisible ? "always" : "never"}
+                  dpr={[1.25, 1.5]}
+                  gl={{
+                    powerPreference: "high-performance",
+                    antialias: true,
+                    stencil: false,
+                  }}
+                >
+                  <ambientLight intensity={7} />
+                  <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
+                  <directionalLight position={[10, 10, 10]} intensity={1.5} />
+                  <OrbitControls enableZoom={false} maxPolarAngle={Math.PI / 2} />
+                  <Suspense fallback={<CanvasLoader />}>
+                    <Avatar
+                      position-y={avatarPositionY}
+                      scale={avatarScale}
+                      animationName={animationName}
+                    />
+                  </Suspense>
+                </Canvas>
+              )}
             </ErrorBoundary>
           </div>
 

@@ -73,6 +73,4 @@ const Avatar = ({ animationName = "salute", ...props }) => {
   );
 };
 
-useGLTF.preload("/models/human/avatar.glb");
-
 export default Avatar;

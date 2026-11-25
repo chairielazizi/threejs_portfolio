@@ -45,7 +45,5 @@ const ComputerCard = ({ scale = 1, ...props }) => {
   );
 };
 
-useGLTF.preload("/models/computer_card_sci-fi.glb");
-
 export default ComputerCard;
 
